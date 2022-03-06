@@ -4,7 +4,7 @@ import Basket from './pages/Basket'
 import Shop from './pages/Shop'
 import Auth from './pages/Auth'
 import ProductPage from './pages/ProductPage'
-import { ADMIN_ROUTE, BASKET_ROUTE, PRODUCT_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE, NONE_EXIST_ROUTE } from './utils/consts'
+import { ADMIN_ROUTE, BASKET_ROUTE, PRODUCT_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE, NON_EXISTENT_ROUTE } from './utils/consts'
 
 export const authRoutes = [
     {
@@ -35,7 +35,7 @@ export const publicRoutes = [
         element: <ProductPage />
     },
     {
-        path: NONE_EXIST_ROUTE,
+        path: NON_EXISTENT_ROUTE,
         element: <Navigate to="/" />
     }
 ]
