@@ -11,7 +11,7 @@ const AppRouter = () => {
             {user.isAuth && authRoutes.map(({path, element}) => 
                 <Route key={path} exact path={path} element={element}/>
             )}
-             {publicRoutes.map(({path, element}) => 
+            {publicRoutes.map(({path, element}) => 
                 <Route key={path} exact path={path} element={element}/>
             )}
         </Routes>
