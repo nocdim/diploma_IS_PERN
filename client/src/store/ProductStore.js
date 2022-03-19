@@ -3,14 +3,18 @@ import { makeAutoObservable } from "mobx"
 export default class UserStore {
     constructor() {
         this._types = [
-
+            {id: 1, name: 'BRUH sausage'}
         ]
         this._brands = [
+            {id: 1, name: 'BRUH'},
+            {id: 2, name: 'MOMENT'}
 
         ]
         this._products = [
 
         ]
+        this._selectedType = {}
+        this._selectedBrand = {}
         makeAutoObservable(this)
     }
 
@@ -23,6 +27,12 @@ export default class UserStore {
     setProducts(products) {
         this._products = products
     }
+    setSelectedType(type) {
+        this._selectedType = type
+    }
+    setSelectedBrand(brand) {
+        this._selectedBrand = brand
+    }
 
     get types() {
         return this._types
@@ -32,5 +42,11 @@ export default class UserStore {
     }
     get products() {
         return this._products
+    }
+    get selectedType() {
+        return this._selectedType
+    }
+    get selectedBrand() {
+        return this._selectedBrand
     }
 }
