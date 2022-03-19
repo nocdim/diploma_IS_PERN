@@ -6,7 +6,7 @@ import { Context } from "../index"
 const BrandBar = observer(() => {
     const { product } = useContext(Context)
     return (
-        <Row className="d-flex">
+        <div className="d-flex">
             {product.brands.map(brand => 
                     <Card
                     style={{cursor: 'pointer'}}
@@ -18,7 +18,7 @@ const BrandBar = observer(() => {
                         {brand.name}
                     </Card>
                 )}
-        </Row>
+        </div>
     )
 })
 
