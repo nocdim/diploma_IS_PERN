@@ -6,7 +6,6 @@ import { PRODUCT_ROUTE } from '../utils/consts';
 
 const ProductItem = ({ product }) => {
     const navigate = useNavigate()
-    console.log(navigate)
     return (
         <Col md={3} className={"mt-3"} onClick={() => navigate(PRODUCT_ROUTE + '/' + product.id)}>
             <Card style={{ width: 150, cursor: 'pointer' }} border={"light"}>

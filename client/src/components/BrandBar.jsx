@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Card, Row } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite';
 import { Context } from "../index"
 
