@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Col, Image, Row, Card, Button } from "react-bootstrap"
 import bigStar from "../assets/bigStar.png"
+import { useParams } from "react-router-dom"
+import { fetchOneProduct } from '../http/productAPI'
 
 const ProductPage = () => {
-    const product = { id: 1, name: 'BRUH', price: 500, rating: 3, img: `https://sun9-37.userapi.com/impg/5kBjH-GnXeTXH9qLjHhOSS752woFZZxl3K6sKg/eeQbZw3y0Xs.jpg?size=1079x1080&quality=96&sign=fbce729e08bd4adaa6686fe8053b9186&c_uniq_tag=PEMR2ROfSsbsFiJTHq6-Zsl4Rt_b2rIUw5nU5qoNZ9M&type=album` }
-    const description = [
 
-    ]
+    const [ product, setProduct ] = useState({info: []}) 
+    const {id} = useParams()
+    useEffect(() => {
+        fetchOneProduct(id).then(data => setProduct(data))
+    }, [])
+    
     return (
         <Container className="mt-3">
             <Row>
                 <Col md={4}>
-                    <Image width={300} height={300} src={product.img}></Image>
+                    <Image width={300} height={300} src={process.env.REACT_APP_API_URL + product.img}></Image>
                 </Col>
                 <Col md={4}>
                     <Row className="d-flex flex-column align-items-center">
@@ -36,7 +41,7 @@ const ProductPage = () => {
             </Row>
             <Row className="d-flex flex-column m-3">
                 <h1>Описание</h1>
-                {description.map((info, index) =>
+                {product.info.map((info, index) =>
                     <Row key={info.id} style={{background: index % 2 === 0 ? 'lightgray' : 'transparent', padding: 10}}>
                         {info.title}: {info.description}
                     </Row>    

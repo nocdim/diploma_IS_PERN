@@ -1,4 +1,3 @@
-const {Type} = require('../models/models')
 const ApiError = require('../error/ApiError')
 const uuid = require('uuid')
 const path = require('path')
@@ -16,7 +15,8 @@ class ProductController {
 
             if (info) {
                 info = JSON.parse(info)
-                info.forEach(i => ProductInfo.create({
+                info.forEach(i => 
+                    ProductInfo.create({
                     title: i.title,
                     description: i.description,
                     productId: product.id
@@ -30,7 +30,7 @@ class ProductController {
         
     }
     async getAll(req, res) {
-        const {brandId, typeId, limit, page} = req.body
+        let {brandId, typeId, limit, page} = req.body
 
         page = page || 1
         limit = limit || 9
