@@ -81,7 +81,7 @@ Brand.belongsToMany(Type, {through: TypeBrand})
 
 // Синхронизируем все сущности нашей БД
 sequelize.sync({alter: true}).then(() => {
-    console.log('Синхронизация прошла успешно')
+    
 }).catch(err => {
     console.log(err)
 })

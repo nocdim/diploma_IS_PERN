@@ -1,4 +1,4 @@
-const {Brand} = require('../models/models')
+const {Brand} = require('../entities/associations')
 const ApiError = require('../error/ApiError')
 
 class BrandController {

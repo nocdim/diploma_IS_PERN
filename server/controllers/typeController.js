@@ -1,4 +1,4 @@
-const {Type} = require('../models/models')
+const {Type} = require('../entities/associations')
 const ApiError = require('../error/ApiError')
 
 class TypeController {
