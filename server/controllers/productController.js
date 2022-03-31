@@ -61,6 +61,7 @@ class ProductController {
         )
         return res.json(product)
     }
+
 }
 
 module.exports = new ProductController()

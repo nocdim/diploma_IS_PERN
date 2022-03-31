@@ -63,14 +63,14 @@ BasketProduct.belongsTo(Basket)
 Type.hasMany(Product)
 Product.belongsTo(Type)
 
-Brand.hasMany(Product)
-Product.belongsTo(Brand)
+Brand.hasMany(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
+Product.belongsTo(Brand, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
-Product.hasMany(Rating)
-Rating.belongsTo(Product)
+Product.hasMany(Rating, { onDelete: "CASCADE", onUpdate: "CASCADE" })
+Rating.belongsTo(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
-Product.hasMany(BasketProduct)
-BasketProduct.belongsTo(Product)
+Product.hasMany(BasketProduct, { onDelete: "CASCADE", onUpdate: "CASCADE" })
+BasketProduct.belongsTo(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
 Product.hasMany(ProductInfo, {as: 'info'})
 ProductInfo.belongsTo(Product)
@@ -78,6 +78,13 @@ ProductInfo.belongsTo(Product)
 // Связь многие ко многим
 Type.belongsToMany(Brand, {through: TypeBrand})
 Brand.belongsToMany(Type, {through: TypeBrand})
+
+// Синхронизируем все сущности нашей БД
+sequelize.sync({alter: true}).then(() => {
+    console.log('Синхронизация прошла успешно')
+}).catch(err => {
+    console.log(err)
+})
 
 module.exports = {
     User,
