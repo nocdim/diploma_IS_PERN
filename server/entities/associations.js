@@ -150,8 +150,8 @@ Product.hasMany(ProductInfo, {as: 'info'})
 ProductInfo.belongsTo(Product)
 
 // Связь многие ко многим
-Type.belongsToMany(Brand, {through: TypeBrand})
-Brand.belongsToMany(Type, {through: TypeBrand})
+Type.belongsToMany(Brand, {through: 'type_brand'})
+Brand.belongsToMany(Type, {through: 'type_brand'})
 
 // Синхронизируем все сущности нашей БД
 sequelize.sync({alter: true})
@@ -167,3 +167,4 @@ module.exports = {
     TypeBrand,
     ProductInfo
 }
+

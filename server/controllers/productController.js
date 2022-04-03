@@ -1,6 +1,6 @@
 const uuid = require('uuid')
 const path = require('path');
-const {Product, ProductInfo} = require('../entities/associations')
+const {Product, ProductInfo, TypeBrand} = require('../entities/associations')
 const ApiError = require('../error/ApiError');
 
 class ProductController {
@@ -23,11 +23,21 @@ class ProductController {
                 )
             }
 
-            return res.json(product)
+            let typeBrand = await TypeBrand.findOne({ where: {
+                typeId: typeId,
+                brandId: brandId
+            } })
+
+            if (typeBrand === null){
+                const typeBrandBond = await TypeBrand.create({typeId, brandId})
+                return res.json(typeBrandBond)
+            }
+
+            return res.json(product) 
+
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
-
     }
 
     async getAll(req, res) {
