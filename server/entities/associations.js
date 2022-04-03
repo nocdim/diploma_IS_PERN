@@ -154,18 +154,7 @@ Type.belongsToMany(Brand, {through: TypeBrand})
 Brand.belongsToMany(Type, {through: TypeBrand})
 
 // Синхронизируем все сущности нашей БД
-let type, brand
-sequelize.sync({alter: true}).then(() => {
-    return Type.findAll()
-}).then(data => {
-    type = data
-    return Brand.findAll()
-}).then(data => {
-    brand = data
-    Type.bulkBuild(brand)
-}).catch(err => {
-    console.log(err)
-})
+sequelize.sync({alter: true})
 
 module.exports = {
     User,
