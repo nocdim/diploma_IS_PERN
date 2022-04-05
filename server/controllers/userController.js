@@ -1,5 +1,6 @@
 const ApiError = require('../error/ApiError')
 const bcrypt = require('bcrypt')
+const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 const { User, Basket } = require('../entities/associations')
 
@@ -13,32 +14,64 @@ const generateJwt = (id, email, role) => {
 
 class UserController {
     async registration(req, res, next) {
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+        let errs = []
+        for (let objs of errors.array()) {
+            errs.push(' ' + objs.msg + ' ')
+            }
+            return next(ApiError.badRequest(errs))
+        }
+        
         const { email, password, role } = req.body
-        if(!email || !password) {
+
+        if (!email || !password) {
             return next(ApiError.badRequest('Неккоректный email или пароль'))
         }
+
         const candidate = await User.findOne({where: {email}})
+
         if (candidate) {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
+
         const hashPassword = await bcrypt.hash(password, 5)
         const user = await User.create({email, role, password: hashPassword})
         const basket = await Basket.create({userId: user.id})
         const token = generateJwt(user.id, user.email, user.role)
+
         return res.json({token})
     }
 
     async login(req, res, next) {
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+        let errs = []
+        for (let objs of errors.array()) {
+            errs.push(' ' + objs.msg + ' ')
+            }
+            return next(ApiError.badRequest(errs))
+        }
+
         const {email, password} = req.body
+
         const user = await User.findOne({where: {email}})
         if(!user) {
-            return next(ApiError.badRequest('Пользователь не найден'))
+            return next(ApiError.badRequest('Пользователя с таким email не существует'))
         }
-        let comparePassword = bcrypt.compareSync(password, user.password)
+
+        const comparePassword = bcrypt.compareSync(password, user.password)
+
         if (!comparePassword) {
             return next(ApiError.badRequest('Указан неверный пароль'))
         }
+
         const token = generateJwt(user.id, user.email, user.role)
+
         return res.json({token})
     }
 
