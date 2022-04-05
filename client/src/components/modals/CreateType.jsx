@@ -4,12 +4,17 @@ import { createType } from "../../http/productAPI";
 
 const CreateType = ({show, onHide}) => {
 
+    const [file, setFile] = useState(null)
     const [value, setValue] = useState('')
     const addType = () => {
         createType({name: value}).then(data => {
             setValue('')
             onHide()
         })
+    }
+
+    const selectFile = e => {
+        setFile(e.target.files[0])
     }
 
     return (
@@ -30,6 +35,11 @@ const CreateType = ({show, onHide}) => {
                         value={value}
                         onChange={e => setValue(e.target.value)}
                         placeholder={"Введите название типа"}
+                    />
+                    <Form.Control
+                        className="mt-3"
+                        type="file"
+                        onChange={selectFile}
                     />
                 </Form>
             </Modal.Body>

@@ -4,12 +4,16 @@ import { createBrand } from "../../http/productAPI";
 
 const CreateBrand = ({show, onHide}) => {
 
-    const [value, setValue] = useState('')
-    const addBrand = () => {
-        createBrand({name: value}).then(data => {
-            setValue('')
-            onHide()
-        })
+    const [brand, setBrand] = useState('')
+    const addBrand = async () => {
+        try {
+            await createBrand({name: brand}).then(data => {
+                setBrand('')
+                onHide()
+            })
+        } catch (e) {
+            alert(e.response.data.message)
+        } 
     }
 
     return (
@@ -21,15 +25,15 @@ const CreateBrand = ({show, onHide}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить брэнд
+                    Добавить производителя
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Control
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
-                        placeholder={"Введите название брэнда"}
+                        value={brand}
+                        onChange={e => setBrand(e.target.value)}
+                        placeholder={"Введите название производителя"}
                     />
                 </Form>
             </Modal.Body>

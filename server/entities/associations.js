@@ -73,6 +73,10 @@ const Type = sequelize.define('type', {
         unique: true, 
         allowNull: false
     },
+    img: {
+        type: DataTypes.STRING, 
+        allowNull: false
+    }
 })
 
 const Brand = sequelize.define('brand', {

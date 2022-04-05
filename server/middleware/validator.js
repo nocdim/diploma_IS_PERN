@@ -9,7 +9,7 @@ exports.login = [
         .isLength({ min: 1 })
 ]
 
-exports.registration = [ // вывод данных о регистрации в объекте
+exports.registration = [
     check('email', 'Введен неккоректный email')
         .isEmail()
         .normalizeEmail(),
@@ -18,4 +18,10 @@ exports.registration = [ // вывод данных о регистрации в
         .isLength({ min: 8 }),
     check('confirmPass', 'Пароли не совпадают')
         .custom((value, { req }) => (value === req.body.password))
+]
+
+exports.brand = [
+    check('name', 'Поле "Производитель" пустое')
+    .exists()
+    .isLength({ min: 1 })
 ]
