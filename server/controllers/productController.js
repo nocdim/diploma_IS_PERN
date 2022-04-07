@@ -2,11 +2,38 @@ const uuid = require('uuid')
 const path = require('path');
 const {Product, ProductInfo, TypeBrand} = require('../entities/associations')
 const ApiError = require('../error/ApiError');
+const { validationResult } = require('express-validator')
 
 class ProductController {
     async create(req, res, next) {
         try {
-            let {name, price, brandId, typeId, info} = req.body
+
+            const errors = validationResult(req)
+            
+            if (!req.files || Object.keys(req.files).length === 0 || !errors.isEmpty()) {
+                let errs = []
+
+                if (!req.files || Object.keys(req.files).length === 0) {
+                    errs.push(' Загрузите изображение ')
+                }
+                
+                for (let objs of errors.array()) {
+                    errs.push(' ' + objs.msg + ' ')
+                }
+                
+                return next(ApiError.badRequest(errs))
+            }
+
+            let {name} = req.body
+            const productExists = await Product.findOne(
+                {
+                    where: {name}
+                },
+            )
+            if (productExists) {
+                return next(ApiError.badRequest('Продукт с таким названием уже существует'))
+            }
+            let {price, brandId, typeId, info} = req.body
             const {img} = req.files
             let fileName = uuid.v4() + ".jpg"
             img.mv(path.resolve(__dirname, '..', 'static', fileName))

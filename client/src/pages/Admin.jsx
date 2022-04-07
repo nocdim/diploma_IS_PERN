@@ -17,7 +17,7 @@ const Admin = () => {
                         className="mt-4 p-2"
                         onClick={() => setTypeVisible(true)}
                     >
-                        Добавить тип
+                        Добавить раздел
                     </Button>
                 </Col>
                 <Col className="d-flex flex-column">
@@ -26,7 +26,7 @@ const Admin = () => {
                         className="mt-4 p-2"
                         
                     >
-                        Изменить/Удалить тип
+                        Изменить/Удалить раздел
                     </Button>
                 </Col>
             </Row>
@@ -37,7 +37,7 @@ const Admin = () => {
                         className="mt-4 p-2"
                         onClick={() => setBrandVisible(true)}
                     >
-                        Добавить брэнд
+                        Добавить производителя
                     </Button>
                 </Col>
                 <Col className="d-flex flex-column">
@@ -46,7 +46,7 @@ const Admin = () => {
                         className="mt-4 p-2"
                         
                     >
-                        Изменить/Удалить брэнд
+                        Изменить/Удалить производителя
                     </Button>
                 </Col>
             </Row>

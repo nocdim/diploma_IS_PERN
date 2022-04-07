@@ -17,7 +17,17 @@ class BrandController {
                 return next(ApiError.badRequest(errs))
             }
 
-            const { name } = req.body
+            let { name } = req.body
+
+            const brandExists = await Brand.findOne(
+                {
+                    where: {name}
+                },
+            )
+            if (brandExists) {
+                return next(ApiError.badRequest('Производитель с таким названием уже существует'))
+            }
+
             const brand = await Brand.create({ name })
             return res.json(brand)
         } catch (e) {
@@ -35,7 +45,7 @@ class BrandController {
             await Brand.destroy({
                 where: { name: name }
             })
-            return res.json("Брэнд " + name + " был удалён успешно")
+            return res.json("Производитель " + name + " был удалён успешно")
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

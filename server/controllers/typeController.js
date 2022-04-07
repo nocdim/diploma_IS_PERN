@@ -1,11 +1,44 @@
-const {Type} = require('../entities/associations')
+const uuid = require('uuid')
+const path = require('path');
+const { Type } = require('../entities/associations')
 const ApiError = require('../error/ApiError')
+const { validationResult } = require('express-validator')
 
 class TypeController {
     async create(req, res, next) {
         try {
-            const {name} = req.body
-            const type = await Type.create({name})
+
+            const errors = validationResult(req)
+
+            if (!req.files || Object.keys(req.files).length === 0 || !errors.isEmpty()) {
+                let errs = []
+
+                if (!req.files || Object.keys(req.files).length === 0) {
+                    errs.push(' Загрузите изображение ')
+                }
+                
+                for (let objs of errors.array()) {
+                    errs.push(' ' + objs.msg + ' ')
+                }
+                
+                return next(ApiError.badRequest(errs))
+            }
+
+            let { name } = req.body
+
+            const typeExists = await Type.findOne(
+                {
+                    where: {name}
+                },
+            )
+            if (typeExists) {
+                return next(ApiError.badRequest('Раздел с таким названием уже существует'))
+            }
+
+            const { img } = req.files
+            let fileName = uuid.v4() + ".jpg"
+            img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            const type = await Type.create({ name, img: fileName })
             return res.json(type)
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -18,11 +51,11 @@ class TypeController {
     }
     async delete(req, res, next) {
         try {
-            const {name} = req.body
+            const { name } = req.body
             await Type.destroy({
-                where: {name: name}
-            }) 
-            return res.json("Тип " + name + " был удалён успешно")
+                where: { name: name }
+            })
+            return res.json("Раздел " + name + " был удалён успешно")
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

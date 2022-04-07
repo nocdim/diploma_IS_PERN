@@ -25,3 +25,25 @@ exports.brand = [
     .exists()
     .isLength({ min: 1 })
 ]
+
+exports.type = [
+    check('name', 'Поле "Раздел" пустое')
+    .exists()
+    .isLength({ min: 1 })
+]
+
+exports.product = [
+    check('typeId', 'Выберите раздел')
+    .exists()
+    .isNumeric(),
+    check('brandId', 'Выберите производителя')
+    .exists()
+    .isNumeric(),
+    check('name', 'Поле "Название" пустое')
+    .exists()
+    .isLength({ min: 1 }),
+    check('price', 'Поле "Стоимость" неккоректно')
+    .exists()
+    .isNumeric()
+    .isFloat({ min: 0.1 }),
+]

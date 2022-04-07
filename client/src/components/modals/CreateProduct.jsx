@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 const CreateProduct = observer(({show, onHide}) => {
     const {product} = useContext(Context)
     const [name, setName] = useState('')
-    const [price, setPrice] = useState()
+    const [price, setPrice] = useState(0)
     const [file, setFile] = useState(null)
     const [info, setInfo] = useState([])
 
@@ -30,15 +30,19 @@ const CreateProduct = observer(({show, onHide}) => {
         setFile(e.target.files[0])
     }
 
-    const addProduct = () => {
-        const formData = new FormData()
-        formData.append('name', name)
-        formData.append('price', `${price}`)
-        formData.append('img', file)
-        formData.append('brandId', product.selectedBrand.id)
-        formData.append('typeId', product.selectedType.id)
-        formData.append('info', JSON.stringify(info))
-        createProduct(formData).then(data => onHide())
+    const addProduct = async () => {
+        try {
+            const formData = new FormData()
+            formData.append('name', name)
+            formData.append('price', `${price}`)
+            formData.append('img', file)
+            formData.append('brandId', product.selectedBrand.id)
+            formData.append('typeId', product.selectedType.id)
+            formData.append('info', JSON.stringify(info))
+            await createProduct(formData).then(data => onHide())
+        } catch (e) {
+            alert(e.response.data.message)
+        }
     }
 
     return (
@@ -55,7 +59,7 @@ const CreateProduct = observer(({show, onHide}) => {
             <Modal.Body>
                 <Form>
                     <Dropdown className="mt-2 mb-2">
-                        <Dropdown.Toggle>{product.selectedType.name || "Выберите тип"}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{product.selectedType.name || "Выберите раздел"}</Dropdown.Toggle>
                         <Dropdown.Menu>
                             {product.types.map(type =>
                                 <Dropdown.Item
@@ -68,7 +72,7 @@ const CreateProduct = observer(({show, onHide}) => {
                         </Dropdown.Menu>
                     </Dropdown>
                     <Dropdown className="mt-2 mb-2">
-                        <Dropdown.Toggle>{product.selectedBrand.name || "Выберите тип"}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{product.selectedBrand.name || "Выберите производителя"}</Dropdown.Toggle>
                         <Dropdown.Menu>
                             {product.brands.map(brand =>
                                 <Dropdown.Item

@@ -5,12 +5,21 @@ import { createType } from "../../http/productAPI";
 const CreateType = ({show, onHide}) => {
 
     const [file, setFile] = useState(null)
-    const [value, setValue] = useState('')
-    const addType = () => {
-        createType({name: value}).then(data => {
-            setValue('')
-            onHide()
-        })
+    const [type, setType] = useState('')
+
+    const addType = async () => {
+        try {
+            const formData = new FormData()
+            formData.append('name', type)
+            formData.append('img', file)
+            await createType(formData).then(data => {
+                setType('')
+                onHide()
+            })
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+        
     }
 
     const selectFile = e => {
@@ -26,15 +35,15 @@ const CreateType = ({show, onHide}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить тип
+                    Добавить раздел
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Control
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
-                        placeholder={"Введите название типа"}
+                        value={type}
+                        onChange={e => setType(e.target.value)}
+                        placeholder={"Введите название раздела"}
                     />
                     <Form.Control
                         className="mt-3"
