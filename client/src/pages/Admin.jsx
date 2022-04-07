@@ -49,29 +49,6 @@ const Admin = () => {
             <Row>
                 <Col className="d-flex flex-column">
                     <h2 style={{ margin: '0 auto', padding: '30px' }}>
-                        Производители
-                    </h2>
-                </Col>
-            </Row>
-            <Row>
-                {product.brands.map(brand =>
-                    <Col className="d-flex flex-column"
-                        key={brand.id}
-                    >
-                        <Card
-                            style={{ cursor: 'pointer' }}
-                            key={brand.id}
-                            className="p-3"
-                            border={'danger'}
-                        >
-                            {brand.name}
-                        </Card>
-                    </Col>
-                )}
-            </Row>
-            <Row>
-                <Col className="d-flex flex-column">
-                    <h2 style={{ margin: '0 auto', padding: '30px' }}>
                         Разделы
                     </h2>
                 </Col>
@@ -89,6 +66,29 @@ const Admin = () => {
                         >
                             {type.name}
                             <Image width={150} height={150} src={process.env.REACT_APP_API_URL + type.img} />
+                        </Card>
+                    </Col>
+                )}
+            </Row>
+            <Row>
+                <Col className="d-flex flex-column">
+                    <h2 style={{ margin: '0 auto', padding: '30px' }}>
+                        Производители
+                    </h2>
+                </Col>
+            </Row>
+            <Row>
+                {product.brands.map(brand =>
+                    <Col className="d-flex flex-column"
+                        key={brand.id}
+                    >
+                        <Card
+                            style={{ cursor: 'pointer' }}
+                            key={brand.id}
+                            className="p-3"
+                            border={'danger'}
+                        >
+                            {brand.name}
                         </Card>
                     </Col>
                 )}
