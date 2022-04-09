@@ -10,6 +10,7 @@ const CreateBrand = ({show, onHide}) => {
             await createBrand({name: brand}).then(data => {
                 setBrand('')
                 onHide()
+                window.location.reload()
             })
         } catch (e) {
             alert(e.response.data.message)

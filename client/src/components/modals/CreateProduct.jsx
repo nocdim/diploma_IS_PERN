@@ -100,6 +100,7 @@ const CreateProduct = observer(({show, onHide}) => {
                     <Form.Control
                         className="mt-3"
                         type="file"
+                        accept="image/*"
                         onChange={selectFile}
                     />
                     <hr/>

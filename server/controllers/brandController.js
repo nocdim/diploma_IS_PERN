@@ -41,7 +41,7 @@ class BrandController {
     }
     async delete(req, res, next) {
         try {
-            const { name } = req.body
+            let name = req.params.name.slice(1)
             await Brand.destroy({
                 where: { name: name }
             })

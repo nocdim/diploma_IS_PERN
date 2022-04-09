@@ -6,6 +6,7 @@ const validator = require('../middleware/validator')
 
 router.post('/', checkRole('ADMIN'), validator.type, typeController.create)
 router.get('/', typeController.getAll)
-router.delete('/', checkRole('ADMIN'), typeController.delete)
+router.delete('/:name', checkRole('ADMIN'), typeController.delete)
 
 module.exports = router
+

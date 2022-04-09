@@ -16,11 +16,11 @@ class TypeController {
                 if (!req.files || Object.keys(req.files).length === 0) {
                     errs.push(' Загрузите изображение ')
                 }
-                
+
                 for (let objs of errors.array()) {
                     errs.push(' ' + objs.msg + ' ')
                 }
-                
+
                 return next(ApiError.badRequest(errs))
             }
 
@@ -28,7 +28,7 @@ class TypeController {
 
             const typeExists = await Type.findOne(
                 {
-                    where: {name}
+                    where: { name }
                 },
             )
             if (typeExists) {
@@ -51,7 +51,7 @@ class TypeController {
     }
     async delete(req, res, next) {
         try {
-            const { name } = req.body
+            let name = req.params.name.slice(1)
             await Type.destroy({
                 where: { name: name }
             })

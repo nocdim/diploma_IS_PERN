@@ -15,11 +15,11 @@ const CreateType = ({show, onHide}) => {
             await createType(formData).then(data => {
                 setType('')
                 onHide()
+                window.location.reload()
             })
         } catch (e) {
             alert(e.response.data.message)
         }
-        
     }
 
     const selectFile = e => {
@@ -48,6 +48,7 @@ const CreateType = ({show, onHide}) => {
                     <Form.Control
                         className="mt-3"
                         type="file"
+                        accept="image/*"
                         onChange={selectFile}
                     />
                 </Form>
