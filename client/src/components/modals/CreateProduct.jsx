@@ -79,7 +79,7 @@ const CreateProduct = observer(({ show, onHide }) => {
             centered
         >
             <Modal.Header closeButton>
-                <Modal.Title >
+                <Modal.Title>
                     Добавить продукт
                 </Modal.Title>
             </Modal.Header>
