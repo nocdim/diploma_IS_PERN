@@ -85,10 +85,10 @@ const CreateProduct = observer(({ show, onHide }) => {
             </Modal.Header>
             <Modal.Body>
                 <Form >
-                    <Row style={{margin: 'auto', display: 'flex' }}>
-                        <Col 
-                            className="d-flex justify-content-center" 
-                            style={{marginRight: '-20px'}}
+                    <Row style={{ margin: 'auto', display: 'flex' }}>
+                        <Col
+                            className="d-flex justify-content-center"
+                            style={{ marginRight: '-20px' }}
                             md={{ span: 4 }}
                         >
                             {preview ?
@@ -114,9 +114,9 @@ const CreateProduct = observer(({ show, onHide }) => {
                                 onChange={selectImage}
                             />
                         </Col>
-                        <Col md={{ span: 8 }} style={{margin: 'auto'}}>
+                        <Col md={{ span: 8 }} style={{ margin: 'auto' }}>
                             <Table
-                                
+
                                 size="sm"
                                 borderless>
                                 <tbody >
@@ -178,18 +178,18 @@ const CreateProduct = observer(({ show, onHide }) => {
                         </Col>
                     </Row>
                     <hr />
-                    <Row className="d-grid" style={{margin: '5px'}}>
-                    <Button
-                        style={{marginTop: '10px'}}
-                        variant={"outline-dark"}
-                        onClick={addInfo}
-                    >
-                        Добавить новое свойство
-                    </Button>
+                    <Row className="d-grid" style={{ margin: '5px' }}>
+                        <Button
+                            style={{ marginTop: '10px' }}
+                            variant={"outline-dark"}
+                            onClick={addInfo}
+                        >
+                            Добавить новое свойство
+                        </Button>
                     </Row>
-                    
+
                     {info.map(i =>
-                        <Row className="mt-3" key={i.number} style={{margin: '0px 5px 0px 20px'}}>
+                        <Row className="mt-3" key={i.number} style={{ margin: '0px 5px 0px 20px' }}>
                             <Col md={{ span: 5 }}>
                                 <Form.Control
                                     value={i.title}
