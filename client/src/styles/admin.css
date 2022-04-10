@@ -1,0 +1,17 @@
+.img,
+.imgButton {
+  width: 200px;
+  height: 250px;
+  border-radius: 8px;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.imgButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 1px dashed rgba(0, 0, 0, 0.20);
+  color: #000;
+}
