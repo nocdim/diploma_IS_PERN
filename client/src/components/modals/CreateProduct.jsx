@@ -116,12 +116,12 @@ const CreateProduct = observer(({ show, onHide }) => {
                         </Col>
                         <Col md={{ span: 8 }} style={{ margin: 'auto' }}>
                             <Table
-
+                                style={{ tableLayout: 'fixed' }}
                                 size="sm"
                                 borderless>
                                 <tbody >
                                     <tr>
-                                        <td>
+                                        <td >
                                             <Dropdown className="d-grid mt-2">
                                                 <Dropdown.Toggle>{product.selectedType.name || "Выберите раздел"}</Dropdown.Toggle>
                                                 <Dropdown.Menu>
@@ -136,7 +136,7 @@ const CreateProduct = observer(({ show, onHide }) => {
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                         </td>
-                                        <td>
+                                        <td style={{ tableLayout: 'fixed' }}>
                                             <Dropdown className="d-grid mt-2">
                                                 <Dropdown.Toggle>{product.selectedBrand.name || "Выберите производителя"}</Dropdown.Toggle>
                                                 <Dropdown.Menu>
