@@ -65,7 +65,8 @@ const CreateProduct = observer(({ show, onHide }) => {
             formData.append('brandId', product.selectedBrand.id)
             formData.append('typeId', product.selectedType.id)
             formData.append('info', JSON.stringify(info))
-            await createProduct(formData).then(data => onHide())
+            await createProduct(formData)
+            window.location.reload()
         } catch (e) {
             alert(e.response.data.message)
         }
