@@ -4,9 +4,7 @@ const { validationResult } = require('express-validator')
 
 class BrandController {
     async create(req, res, next) {
-
         try {
-
             const errors = validationResult(req)
             
             if (!errors.isEmpty()) {
@@ -18,7 +16,6 @@ class BrandController {
             }
 
             let { name } = req.body
-
             const brandExists = await Brand.findOne(
                 {
                     where: {name}
@@ -35,21 +32,61 @@ class BrandController {
         }
     }
 
-    async getAll(req, res) {
-        const brands = await Brand.findAll()
-        return res.json(brands)
+    async update(req, res, next) {
+        try {
+            const errors = validationResult(req)
+            
+            if (!errors.isEmpty()) {
+                let errs = []
+                for (let objs of errors.array()) {
+                    errs.push(' ' + objs.msg + ' ')
+                }
+                return next(ApiError.badRequest(errs))
+            }
+
+            let oldName = req.params.name
+            let { name } = req.body
+            console.log(oldName + "-->" + name)
+            const brandExists = await Brand.findOne(
+                {
+                    where: {name}
+                },
+            )
+            if (brandExists) {
+                return next(ApiError.badRequest('Производитель с таким названием уже существует'))
+            }
+
+            const brand = await Brand.update({ name: name }, {
+                where: {
+                    name: oldName
+                } 
+            })
+            return res.json(brand)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
     }
+
     async delete(req, res, next) {
         try {
             let name = req.params.name.slice(1)
+            console.log(name)
             await Brand.destroy({
-                where: { name: name }
+                where: { 
+                    name: name 
+                }
             })
             return res.json("Производитель " + name + " был удалён успешно")
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
     }
+
+    async getAll(req, res) {
+        const brands = await Brand.findAll()
+        return res.json(brands)
+    }
+    
 }
 
 module.exports = new BrandController()
