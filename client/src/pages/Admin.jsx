@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useNavigate } from  "react-router-dom"
+import { ADMIN_EDIT_ROUTE } from '../utils/consts'
 import { Button, Col, Container, Row, Card, Image, Tabs, Tab, Table } from 'react-bootstrap'
 import CreateBrand from '../components/modals/CreateBrand'
 import CreateProduct from '../components/modals/CreateProduct'
@@ -10,6 +12,7 @@ import { observer } from 'mobx-react-lite'
 
 const Admin = observer(() => {
     const { product } = useContext(Context)
+    const navigate = useNavigate()
 
     const [brandVisible, setBrandVisible] = useState(false)
     const [typeVisible, setTypeVisible] = useState(false)
@@ -150,7 +153,13 @@ const Admin = observer(() => {
                                                     <th>
                                                         <Row>
                                                             <Col className="d-grid">
-                                                                <Button variant="outline-dark" size="sm">
+                                                                <Button
+                                                                onClick={() => {
+                                                                    navigate(ADMIN_EDIT_ROUTE + '/brand/' + brand.id)
+                                                                }}
+                                                                variant="outline-dark" 
+                                                                size="sm"
+                                                                >
                                                                     Изменить <Icon.PenFill />
                                                                 </Button>
 
