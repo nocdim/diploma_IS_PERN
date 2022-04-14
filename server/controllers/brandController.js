@@ -44,8 +44,8 @@ class BrandController {
                 return next(ApiError.badRequest(errs))
             }
 
-            const oldName = req.params.name.slice(1)
-            let { name } = req.body
+            
+            let { name, oldName } = req.body
             const brandExists = await Brand.findOne(
                 {
                     where: {name}
@@ -56,9 +56,7 @@ class BrandController {
             }
 
             const brand = await Brand.update({ name: name }, {
-                where: {
-                    name: oldName
-                } 
+                where: {name: oldName} 
             })
             return res.json(brand)
         } catch (e) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Form, Button, Col, InputGroup, Image } from 'react-bootstrap';
 import AdminLoader from '../components/AdminLoader'
 import { useParams, useNavigate } from 'react-router-dom'
-import { fetchOneBrand, fetchOneType, updateBrand } from '../http/productAPI';
+import { fetchOneBrand, fetchOneType, updateBrand, updateType } from '../http/productAPI';
 import { ADMIN_ROUTE } from '../utils/consts';
 import "../styles/admin.css"
 
@@ -51,9 +51,25 @@ const AdminEditPage = () => {
         }
     }, [image])
 
+    const changeType = async () => {
+        try {
+            const formData = new FormData()
+            formData.append('name', type)
+            formData.append('img', image)
+            await updateType(formData, {oldName: type.name})
+            alert(`Раздел '${newName}' был успешно обновлён`)
+            navigate(ADMIN_ROUTE)
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+    }
+
     const changeBrand = async () => {
         try {
-            await updateBrand({ oldName: brand.name, name: newName })
+            const formData = new FormData()
+            formData.append('name', newName)
+            formData.append('oldName', brand.name)
+            await updateBrand(formData)
             alert(`Производитель '${newName}' был успешно обновлён`)
             navigate(ADMIN_ROUTE)
         } catch (e) {
@@ -142,6 +158,7 @@ const AdminEditPage = () => {
                                     </Button>
                                     <Button
                                         variant="outline-success"
+                                        onClick={changeType}
                                     >
                                         Изменить
                                     </Button>
