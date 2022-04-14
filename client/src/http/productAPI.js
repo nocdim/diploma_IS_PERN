@@ -20,8 +20,18 @@ export const createBrand = async (brand) => {
     return data
 }
 
+export const updateBrand = async (brand) => {
+    const {data} = await $authHost.put(`api/brand/:${brand.oldName}`, brand)
+    return data
+}
+
 export const fetchBrands = async () => {
     const {data} = await $host.get('api/brand')
+    return data
+}
+
+export const fetchOneBrand = async (id) => {
+    const {data} = await $authHost.get('api/brand/' + id)
     return data
 }
 

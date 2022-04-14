@@ -21,13 +21,13 @@ exports.registration = [
 ]
 
 exports.brand = [
-    check('name', 'Поле "Производитель" пустое')
+    check('name', 'Поле "Название" пустое')
     .exists()
     .isLength({ min: 1 })
 ]
 
 exports.type = [
-    check('name', 'Поле "Раздел" пустое')
+    check('name', 'Поле "Название" пустое')
     .exists()
     .isLength({ min: 1 })
 ]

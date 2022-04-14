@@ -44,9 +44,9 @@ class BrandController {
                 return next(ApiError.badRequest(errs))
             }
 
-            let oldName = req.params.name
+            const oldName = req.params.name.slice(1)
             let { name } = req.body
-            console.log(oldName + "-->" + name)
+            console.log(oldName + " --> " + name)
             const brandExists = await Brand.findOne(
                 {
                     where: {name}
@@ -70,7 +70,6 @@ class BrandController {
     async delete(req, res, next) {
         try {
             let name = req.params.name.slice(1)
-            console.log(name)
             await Brand.destroy({
                 where: { 
                     name: name 
@@ -80,6 +79,16 @@ class BrandController {
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
+    }
+
+    async getOne(req, res) {
+        const {id} = req.params
+        const brand = await Brand.findOne(
+            {
+                where: {id}
+            },
+        )
+        return res.json(brand)
     }
 
     async getAll(req, res) {
