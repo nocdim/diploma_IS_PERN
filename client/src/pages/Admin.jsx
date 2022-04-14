@@ -31,7 +31,7 @@ const Admin = observer(() => {
         try {
             await deleteType({ name: name }).then(
                 alert(`Раздел '${name}' был успешно удален`)
-            ).then(window.location.reload())
+            ).finally(window.location.reload())
         } catch (e) {
             alert(e)
         }
@@ -41,7 +41,7 @@ const Admin = observer(() => {
         try {
             await deleteBrand({ name: name }).then(
                 alert(`Производитель '${name}' был успешно удален`)
-            ).then(window.location.reload())
+            ).finally(window.location.reload())
         } catch (e) {
             alert(e)
         }

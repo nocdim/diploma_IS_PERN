@@ -1,30 +1,36 @@
-import React, { useState, useEffect} from 'react';
-import { Container, Row, Form, Button, Col, InputGroup } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Container, Row, Form, Button, Col, InputGroup, Image } from 'react-bootstrap';
 import AdminLoader from '../components/AdminLoader'
 import { useParams, useNavigate } from 'react-router-dom'
 import { fetchOneBrand, fetchOneType, updateBrand } from '../http/productAPI';
 import { ADMIN_ROUTE } from '../utils/consts';
+import "../styles/admin.css"
 
 const AdminEditPage = () => {
     const [loading, setLoading] = useState(true)
     let { subject } = useParams()
     let { id } = useParams()
+    const fileInputRef = useRef()
     const navigate = useNavigate()
 
     const [type, setType] = useState({ name: '' })
     const [brand, setBrand] = useState({ name: '' })
-    const [newBrand, setNewBrand] = useState('')
+    const [newName, setNewName] = useState('')
+    const [preview, setPreview] = useState('')
+    const [image, setImage] = useState(null)
 
     useEffect(() => {
         if (subject === 'type') {
             fetchOneType(id).then(data => {
                 setType(data)
+                setPreview(process.env.REACT_APP_API_URL + data.img)
+                setNewName(data.name)
             }).finally(() => setLoading(false))
             return
         } else if (subject === 'brand') {
             fetchOneBrand(id).then(data => {
                 setBrand(data)
-                setNewBrand(data.name)
+                setNewName(data.name)
             }).finally(() => setLoading(false))
             return
         } else if (subject === 'product') {
@@ -33,21 +39,47 @@ const AdminEditPage = () => {
         }
     }, [subject, id])
 
+    useEffect(() => {
+        if (image) {
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                setPreview(reader.result)
+            }
+            reader.readAsDataURL(image)
+        } else {
+            setPreview('')
+        }
+    }, [image])
+
     const changeBrand = async () => {
         try {
-            await updateBrand({ oldName: brand.name, name: newBrand })
-            alert(`Производитель '${newBrand}' был успешно обновлён`)
+            await updateBrand({ oldName: brand.name, name: newName })
+            alert(`Производитель '${newName}' был успешно обновлён`)
             navigate(ADMIN_ROUTE)
         } catch (e) {
             alert(e.response.data.message)
         }
     }
 
+    const imgUpload = (event) => {
+        event.preventDefault()
+        fileInputRef.current.click()
+    }
+
+    const selectImage = event => {
+        const file = event.target.files[0]
+        if (file && file.type.substr(0, 5) === "image") {
+            setImage(file)
+        } else {
+            setImage(null)
+        }
+    }
+
     if (loading) {
         return (
-          <AdminLoader />
+            <AdminLoader />
         )
-      }
+    }
 
     return (
         <Container>
@@ -58,14 +90,66 @@ const AdminEditPage = () => {
                         <Col className="d-flex flex-column">
                             <h2 className="mt-4">Редактирование раздела "{type.name}"</h2>
                         </Col>
+                        <Col className="d-flex justify-content-end align-items-end">
+                            Создан: {type.createdAt.substr(0, 10)} Изменён: {type.updatedAt.substr(0, 10)}
+                        </Col>
                     </Row>
                     <Row>
-                        <Col>
-                        
+                        <Col className="d-flex flex-column" md={2}>
+                            <div className="mt-2">
+                                {preview ?
+                                    <img
+                                        className="img"
+                                        src={preview}
+                                        alt={preview}
+                                        onClick={imgUpload}
+                                    />
+                                    :
+                                    <button
+                                        className="imgButton"
+                                        onClick={imgUpload}
+                                    >
+                                        Загрузите изображение
+                                    </button>
+                                }
+                                <Form.Control
+                                    type="file"
+                                    accept="image/*"
+                                    style={{ display: 'none' }}
+                                    ref={fileInputRef}
+                                    onChange={selectImage}
+                                />
+                            </div>
+                        </Col>
+                        <Col className="d-flex flex-column" md={10}>
+                            <Form className="mt-2">
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text>Название</InputGroup.Text>
+                                    <Form.Control
+                                        value={newName}
+                                        onChange={(event) => { setNewName(event.target.value) }}
+                                        placeholder={"Введите название раздела"}
+                                    />
+                                </InputGroup>
+                                <hr />
+                                <div className="d-flex justify-content-end">
+                                    <Button
+                                        className="mx-2"
+                                        variant="outline-danger"
+                                        onClick={() => navigate(ADMIN_ROUTE)}
+                                    >
+                                        Назад
+                                    </Button>
+                                    <Button
+                                        variant="outline-success"
+                                    >
+                                        Изменить
+                                    </Button>
+                                </div>
+                            </Form>
                         </Col>
                     </Row>
                 </div>
-
                 :
                 subject === 'brand'
                     ?
@@ -84,8 +168,8 @@ const AdminEditPage = () => {
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text>Название</InputGroup.Text>
                                         <Form.Control
-                                            value={newBrand}
-                                            onChange={(event) => { setNewBrand(event.target.value) }}
+                                            value={newName}
+                                            onChange={(event) => { setNewName(event.target.value) }}
                                             placeholder={"Введите название производителя"}
                                         />
                                     </InputGroup>
