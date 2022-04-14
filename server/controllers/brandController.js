@@ -46,7 +46,6 @@ class BrandController {
 
             const oldName = req.params.name.slice(1)
             let { name } = req.body
-            console.log(oldName + " --> " + name)
             const brandExists = await Brand.findOne(
                 {
                     where: {name}

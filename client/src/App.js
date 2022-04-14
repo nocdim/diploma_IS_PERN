@@ -5,7 +5,7 @@ import NavBar from './components/NavBar'
 import { observer } from 'mobx-react-lite';
 import { Context } from './index';
 import { check } from './http/userAPI';
-import { Spinner } from 'react-bootstrap';
+import AdminLoader from './components/AdminLoader';
 
 const App = observer(() => {
   const { user } = useContext(Context)
@@ -20,20 +20,7 @@ const App = observer(() => {
 
   if (loading) {
     return (
-      <div style={{
-        width: '100%',
-        height: '100%',
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'space-between',
-        alignItems: 'center',
-        overflow: 'auto'
-      }}>
-        <Spinner animation={"border"} />
-      </div>
+      <AdminLoader />
     )
   }
 

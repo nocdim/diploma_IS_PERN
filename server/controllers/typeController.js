@@ -45,6 +45,16 @@ class TypeController {
         }
     }
 
+    async getOne(req, res) {
+        const {id} = req.params
+        const type = await Type.findOne(
+            {
+                where: {id}
+            },
+        )
+        return res.json(type)
+    }
+
     async getAll(req, res) {
         const types = await Type.findAll()
         return res.json(types)

@@ -9,7 +9,7 @@ import { ADMIN_ROUTE, ADMIN_EDIT_ROUTE, BASKET_ROUTE, PRODUCT_ROUTE, LOGIN_ROUTE
 
 const params = {
     id: '/:id',
-    type: '/:type'
+    subject: '/:subject'
 }
 
 export const authRoutes = [
@@ -18,7 +18,7 @@ export const authRoutes = [
         element: <Admin />
     },
     {
-        path: ADMIN_EDIT_ROUTE + params.type + params.id,
+        path: ADMIN_EDIT_ROUTE + params.subject + params.id,
         element: <AdminEditPage />
     },
     {

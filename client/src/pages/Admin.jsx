@@ -91,7 +91,12 @@ const Admin = observer(() => {
                                             <Card.Body >
                                                 <Row>
                                                     <Col className="d-flex flex-column">
-                                                        <Button variant="outline-dark" key={type.id}>
+                                                        <Button
+                                                        onClick={() => {
+                                                            navigate(ADMIN_EDIT_ROUTE + '/type/' + type.id)
+                                                        }}
+                                                        variant="outline-dark" 
+                                                        >
                                                             <Icon.PenFill />
                                                         </Button>
 

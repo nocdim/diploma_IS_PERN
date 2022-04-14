@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Container, Row, Form, Button, Col, InputGroup } from 'react-bootstrap';
+import AdminLoader from '../components/AdminLoader'
 import { useParams, useNavigate } from 'react-router-dom'
-import { fetchOneBrand, updateBrand } from '../http/productAPI';
+import { fetchOneBrand, fetchOneType, updateBrand } from '../http/productAPI';
 import { ADMIN_ROUTE } from '../utils/consts';
 
 const AdminEditPage = () => {
-    let { type } = useParams()
+    const [loading, setLoading] = useState(true)
+    let { subject } = useParams()
     let { id } = useParams()
     const navigate = useNavigate()
 
+    const [type, setType] = useState({ name: '' })
     const [brand, setBrand] = useState({ name: '' })
     const [newBrand, setNewBrand] = useState('')
 
     useEffect(() => {
-        if (type === 'type') {
-            console.log(type)
+        if (subject === 'type') {
+            fetchOneType(id).then(data => {
+                setType(data)
+            }).finally(() => setLoading(false))
             return
-        } else if (type === 'brand') {
+        } else if (subject === 'brand') {
             fetchOneBrand(id).then(data => {
                 setBrand(data)
                 setNewBrand(data.name)
-            })
+            }).finally(() => setLoading(false))
             return
-        } else if (type === 'product') {
-            console.log(type)
+        } else if (subject === 'product') {
+            console.log(subject)
             return
         }
-    }, [type, id])
+    }, [subject, id])
 
     const changeBrand = async () => {
         try {
@@ -38,18 +43,39 @@ const AdminEditPage = () => {
         }
     }
 
+    if (loading) {
+        return (
+          <AdminLoader />
+        )
+      }
+
     return (
         <Container>
-            {type === 'type'
+            {subject === 'type'
                 ?
-                <h2>Редактирование раздела</h2>
+                <div>
+                    <Row>
+                        <Col className="d-flex flex-column">
+                            <h2 className="mt-4">Редактирование раздела "{type.name}"</h2>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                        
+                        </Col>
+                    </Row>
+                </div>
+
                 :
-                type === 'brand'
+                subject === 'brand'
                     ?
                     <div>
                         <Row>
                             <Col className="d-flex flex-column">
                                 <h2 className="mt-4">Редактирование брэнда "{brand.name}"</h2>
+                            </Col>
+                            <Col className="d-flex justify-content-end align-items-end">
+                                Создан: {brand.createdAt.substr(0, 10)} Изменён: {brand.updatedAt.substr(0, 10)}
                             </Col>
                         </Row>
                         <Row>
@@ -68,20 +94,20 @@ const AdminEditPage = () => {
                             </Col>
                         </Row>
                         <div className="d-flex justify-content-end">
-                            <Button 
-                            className="mx-2"
-                            variant="outline-danger" 
-                            onClick={() => navigate(ADMIN_ROUTE)}
+                            <Button
+                                className="mx-2"
+                                variant="outline-danger"
+                                onClick={() => navigate(ADMIN_ROUTE)}
                             >
                                 Назад
                             </Button>
-                            <Button 
-                            variant="outline-success" 
-                            onClick={changeBrand}
+                            <Button
+                                variant="outline-success"
+                                onClick={changeBrand}
                             >
                                 Изменить
                             </Button>
-                        </div>         
+                        </div>
                     </div>
                     :
                     <h2>Редактирование продукта</h2>
