@@ -118,7 +118,7 @@ const AdminEditPage = () => {
                                     <img
                                         className="img"
                                         src={preview}
-                                        alt={preview}
+                                        alt="Кликните сюда, чтобы поменять изображение"
                                         onClick={imgUpload}
                                     />
                                     :
