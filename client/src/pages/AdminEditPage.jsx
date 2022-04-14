@@ -54,9 +54,10 @@ const AdminEditPage = () => {
     const changeType = async () => {
         try {
             const formData = new FormData()
-            formData.append('name', type)
+            formData.append('name', newName)
+            formData.append('oldName', type.name)
             formData.append('img', image)
-            await updateType(formData, {oldName: type.name})
+            await updateType(formData)
             alert(`Раздел '${newName}' был успешно обновлён`)
             navigate(ADMIN_ROUTE)
         } catch (e) {

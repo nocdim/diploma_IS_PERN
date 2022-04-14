@@ -47,52 +47,73 @@ class TypeController {
 
     async update(req, res, next) {
         try {
-
             const errors = validationResult(req)
-
-            if (!req.files || Object.keys(req.files).length === 0 || !errors.isEmpty()) {
+            if (!errors.isEmpty()) {
                 let errs = []
-
-                if (!req.files || Object.keys(req.files).length === 0) {
-                    errs.push(' Загрузите изображение ')
-                }
-
                 for (let objs of errors.array()) {
                     errs.push(' ' + objs.msg + ' ')
                 }
-
                 return next(ApiError.badRequest(errs))
             }
 
-            const oldName = req.params.name.slice(1)
-            let { name } = req.body
-            console.log(oldName + ' --> ' + name)
+            let { name, oldName } = req.body
             const typeExists = await Type.findOne(
-                {
-                    where: { name }
-                },
+                { where: { name } }
             )
+            console.log(oldName + ' --> ' + name)
+            
             if (typeExists) {
-                return next(ApiError.badRequest('Раздел с таким названием уже существует'))
+                if (typeExists.name !== oldName) {
+                    return next(ApiError.badRequest('Раздел с таким названием уже существует'))
+                }
+                if (typeExists.name === oldName && (!req.files || Object.keys(req.files).length === 0)) {
+                    return next(ApiError.badRequest('Пожалуйста, внесите изменения'))
+                }
+            }
+            
+            if (!req.files || Object.keys(req.files).length === 0) {
+                const type = await Type.update({ name: name }, {
+                    where: { name: oldName }
+                })
+                return res.json(type)
             }
 
             const { img } = req.files
             let fileName = uuid.v4() + ".jpg"
             img.mv(path.resolve(__dirname, '..', 'static', fileName))
             const type = await Type.update({ name: name, img: fileName }, {
-                where: {name: oldName}
+                where: { name: oldName }
             })
             return res.json(type)
+
+
+            // if (!req.files || Object.keys(req.files).length === 0) {
+            //     if (typeExists.name === oldName) {
+            //          const type = await Type.update({ name: name }, {
+            //              where: { name: oldName }
+            //          })
+            //             return res.json(type)
+            //         } else return next(ApiError.badRequest('Раздел с таким названием уже существует'))    
+            //     } else {
+            //         const { img } = req.files
+            //         let fileName = uuid.v4() + ".jpg"
+            //         img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            //         const type = await Type.update({ name: name, img: fileName }, {
+            //             where: { name: oldName }
+            //         })
+            //         return res.json(type)
+            //     }
+
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
     }
 
     async getOne(req, res) {
-        const {id} = req.params
+        const { id } = req.params
         const type = await Type.findOne(
             {
-                where: {id}
+                where: { id }
             },
         )
         return res.json(type)

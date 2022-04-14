@@ -44,7 +44,6 @@ class BrandController {
                 return next(ApiError.badRequest(errs))
             }
 
-            
             let { name, oldName } = req.body
             const brandExists = await Brand.findOne(
                 {
