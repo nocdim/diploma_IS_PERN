@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Row, Form, Button, Col, InputGroup, Image } from 'react-bootstrap';
+import { Container, Row, Form, Button, Col, InputGroup } from 'react-bootstrap';
+import * as Icon from 'react-bootstrap-icons';
 import AdminLoader from '../components/AdminLoader'
 import { useParams, useNavigate } from 'react-router-dom'
 import { fetchOneBrand, fetchOneType, updateBrand, updateType } from '../http/productAPI';
@@ -34,8 +35,11 @@ const AdminEditPage = () => {
             }).finally(() => setLoading(false))
             return
         } else if (subject === 'product') {
+            setLoading(false)
             console.log(subject)
             return
+        } else {
+            setLoading(false)
         }
     }, [subject, id])
 
@@ -212,7 +216,28 @@ const AdminEditPage = () => {
                         </div>
                     </div>
                     :
-                    <h2>Редактирование продукта</h2>
+                    subject === 'product'
+                        ?
+                        <h2 className="mt-4">Редактирование продукта</h2>
+                        :
+                        <div>
+                            <Row >
+                                <Col>
+                                    <h2 className="mt-4 ">Что-то пошло не так...</h2>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mt-4">
+                                    <Button
+                                        onClick={() => {window.history.go(-1); return false}}
+                                        size="lg"
+                                    >Назад <Icon.ArrowReturnLeft />
+                                    </Button>
+                                </Col>
+                            </Row>
+
+                        </div>
+
             }
         </Container>
     )

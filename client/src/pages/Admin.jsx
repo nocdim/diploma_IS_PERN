@@ -1,19 +1,37 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { useNavigate } from  "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { ADMIN_EDIT_ROUTE } from '../utils/consts'
-import { Button, Col, Container, Row, Card, Image, Tabs, Tab, Table } from 'react-bootstrap'
+import { Button, Col, Container, Row, Card, Tabs, Tab, Table } from 'react-bootstrap'
 import CreateBrand from '../components/modals/CreateBrand'
 import CreateProduct from '../components/modals/CreateProduct'
 import CreateType from '../components/modals/CreateType'
-import { deleteBrand, deleteType } from '../http/productAPI'
+import { deleteBrand, deleteType, deleteProduct, fetchProducts, fetchBrands, fetchTypes } from '../http/productAPI'
 import { Context } from '../index'
 import * as Icon from 'react-bootstrap-icons';
 import { observer } from 'mobx-react-lite'
 
 const Admin = observer(() => {
     const { product } = useContext(Context)
-    const navigate = useNavigate()
 
+    useEffect(() => {
+        fetchTypes().then(data => product.setTypes(data))
+        fetchBrands().then(data => product.setBrands(data))
+        fetchProducts(null, null, 1, 2).then(data => {
+            product.setProducts(data.rows)
+            product.setTotalCount(data.count)
+        })
+    }, [product])
+
+    let typesObj = {}
+    for (let type of product.types) {
+        typesObj[type.id] = type.name
+    }
+    let brandsObj = {}
+    for (let brand of product.brands) {
+        brandsObj[brand.id] = brand.name
+    }
+
+    const navigate = useNavigate()
     const [brandVisible, setBrandVisible] = useState(false)
     const [typeVisible, setTypeVisible] = useState(false)
     const [productVisible, setProductVisible] = useState(false)
@@ -47,6 +65,16 @@ const Admin = observer(() => {
         }
     }
 
+    const removeProduct = async (name) => {
+        try {
+            await deleteProduct({ name: name }).then(
+                alert(`Продукт '${name}' был успешно удален`)
+            ).finally(window.location.reload())
+        } catch (e) {
+            alert(e)
+        }
+    }
+
     return (
         <Container>
             <Row className="mt-3">
@@ -70,7 +98,7 @@ const Admin = observer(() => {
                             </Row>
                             <Row >
                                 {product.types.map(type =>
-                                    <Col className="d-flex flex-column mt-4 "
+                                    <Col className="d-flex flex-column mt-4"
                                         md="auto"
                                         key={type.id}
 
@@ -92,10 +120,10 @@ const Admin = observer(() => {
                                                 <Row>
                                                     <Col className="d-flex flex-column">
                                                         <Button
-                                                        onClick={() => {
-                                                            navigate(ADMIN_EDIT_ROUTE + '/type/' + type.id)
-                                                        }}
-                                                        variant="outline-dark" 
+                                                            onClick={() => {
+                                                                navigate(ADMIN_EDIT_ROUTE + '/type/' + type.id)
+                                                            }}
+                                                            variant="outline-dark"
                                                         >
                                                             <Icon.PenFill />
                                                         </Button>
@@ -159,11 +187,11 @@ const Admin = observer(() => {
                                                         <Row>
                                                             <Col className="d-grid">
                                                                 <Button
-                                                                onClick={() => {
-                                                                    navigate(ADMIN_EDIT_ROUTE + '/brand/' + brand.id)
-                                                                }}
-                                                                variant="outline-dark" 
-                                                                size="sm"
+                                                                    onClick={() => {
+                                                                        navigate(ADMIN_EDIT_ROUTE + '/brand/' + brand.id)
+                                                                    }}
+                                                                    variant="outline-dark"
+                                                                    size="sm"
                                                                 >
                                                                     Изменить <Icon.PenFill />
                                                                 </Button>
@@ -204,22 +232,74 @@ const Admin = observer(() => {
                                 </Col>
                             </Row>
                             <Row>
-                                {product.products.map(product =>
-                                    <Col
-                                        key={product.id}
-                                        md="auto"
-                                    >
-                                        <Card
-                                            style={{ cursor: 'pointer' }}
-                                            key={product.id}
-                                            className="p-3"
-                                            border={'danger'}
-                                        >
-                                            <Image width={150} height={150} src={process.env.REACT_APP_API_URL + product.img} />
-                                            <div>{product.name}</div>
-                                        </Card>
-                                    </Col>
-                                )}
+                                <Col className="d-flex flex-column mt-4">
+                                    <Table bordered hover>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Название</th>
+                                                <th>Цена</th>
+                                                <th>Раздел</th>
+                                                <th>Производитель</th>
+                                                <th>Опции</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {product.products.map(product =>
+                                                <tr
+                                                    md="auto"
+                                                    key={product.id}
+                                                >
+                                                    <th style={{ width: '5%' }}>
+                                                        {product.id}
+                                                    </th>
+                                                    <th style={{ width: '30%' }}>
+                                                        {product.name}
+                                                    </th>
+                                                    <th style={{ width: '10%' }}>
+                                                        {product.price} ₽
+                                                    </th>
+
+                                                    <th style={{ width: '15%' }}>
+                                                        {Object.keys(typesObj).includes(String(product.typeId)) ? typesObj[product.typeId] : '-'}
+                                                    </th>
+                                                    <th style={{ width: '20%' }}>
+                                                        {Object.keys(brandsObj).includes(String(product.brandId)) ? brandsObj[product.brandId] : '-'}
+                                                    </th>
+                                                    <th style={{ width: '20%' }}>
+                                                        <Row>
+                                                            <Col className="d-grid">
+                                                                <Button
+                                                                    onClick={() => {
+                                                                        navigate(ADMIN_EDIT_ROUTE + '/product/' + product.id)
+                                                                    }}
+                                                                    variant="outline-dark"
+                                                                    size="sm"
+                                                                >
+                                                                    Изменить <Icon.PenFill />
+                                                                </Button>
+
+                                                            </Col>
+                                                            <Col className="d-grid">
+                                                                <Button
+                                                                    variant="outline-danger"
+                                                                    size="sm"
+                                                                    onClick={() => {
+                                                                        if (window.confirm(`Вы действительно хотите удалить продукт '${product.name}'?`)) {
+                                                                            removeProduct(product.name)
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    Удалить <Icon.Trash3 />
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                    </th>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </Table>
+                                </Col>
                             </Row>
                         </Tab>
                     </Tabs>

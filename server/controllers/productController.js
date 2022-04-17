@@ -99,6 +99,20 @@ class ProductController {
         return res.json(product)
     }
 
+    async delete(req, res, next) {
+        try {
+            let name = req.params.name.slice(1)
+            await Product.destroy({
+                where: { 
+                    name: name 
+                }
+            })
+            return res.json("Продукт " + name + " был удалён успешно")
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
 }
 
 module.exports = new ProductController()

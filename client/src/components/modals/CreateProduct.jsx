@@ -15,10 +15,7 @@ const CreateProduct = observer(({ show, onHide }) => {
     const [info, setInfo] = useState([])
     const fileInputRef = useRef()
 
-    useEffect(() => {
-        fetchTypes().then(data => product.setTypes(data))
-        fetchBrands().then(data => product.setBrands(data))
-    }, [product])
+    
 
     const addInfo = () => {
         setInfo([...info, { title: '', description: '', number: Date.now() }])

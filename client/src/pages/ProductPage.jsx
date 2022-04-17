@@ -10,7 +10,7 @@ const ProductPage = () => {
     const {id} = useParams()
     useEffect(() => {
         fetchOneProduct(id).then(data => setProduct(data))
-    }, [])
+    }, [id])
     
     return (
         <Container className="mt-3">

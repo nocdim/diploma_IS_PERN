@@ -7,6 +7,7 @@ const validator = require('../middleware/validator')
 router.post('/', checkRole('ADMIN'), validator.product, productController.create)
 router.get('/', productController.getAll)
 router.get('/:id', productController.getOne)
+router.delete('/:name', checkRole('ADMIN'), productController.delete)
 
 
 
