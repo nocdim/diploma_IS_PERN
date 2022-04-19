@@ -5,21 +5,15 @@ import BrandBar from '../components/BrandBar'
 import ProductList from '../components/ProductList'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../index'
-import { fetchBrands, fetchProducts, fetchTypes } from "../http/productAPI"
+import { fetchProducts } from "../http/productAPI"
 import Pages from "../components/Pages"
+import useFetchInfo from '../hooks/useFetchInfo'
 
 const Shop = observer(() => {
 
     const { product } = useContext(Context)
 
-    useEffect(() => {
-        fetchTypes().then(data => product.setTypes(data))
-        fetchBrands().then(data => product.setBrands(data))
-        fetchProducts(null, null, 1, 2).then(data => {
-            product.setProducts(data.rows)
-            product.setTotalCount(data.count)
-        })
-    }, [product])
+    useFetchInfo()
 
     useEffect(() => {
         fetchProducts(product.selectedType.id, product.selectedBrand.id, product.page, 4).then(data => {

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Modal, Button, Form, Dropdown, Col, Row, Table } from "react-bootstrap"
 import { Context } from "../../index"
-import { createProduct, fetchBrands, fetchTypes } from "../../http/productAPI"
+import { createProduct } from "../../http/productAPI"
 import { observer } from "mobx-react-lite";
 import "../../styles/admin.css"
 

@@ -15,3 +15,14 @@
   border: 1px dashed rgba(0, 0, 0, 0.20);
   color: rgba(0, 0, 0, 0.50);
 }
+
+.modalImg {
+  min-width: 435px;
+}
+.imgModal {
+  width: 400px; 
+  height: 500px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.50);
+  color: rgba(0, 0, 0, 0.50);
+}

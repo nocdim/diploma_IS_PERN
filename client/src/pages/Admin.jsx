@@ -5,22 +5,20 @@ import { Button, Col, Container, Row, Card, Tabs, Tab, Table } from 'react-boots
 import CreateBrand from '../components/modals/CreateBrand'
 import CreateProduct from '../components/modals/CreateProduct'
 import CreateType from '../components/modals/CreateType'
-import { deleteBrand, deleteType, deleteProduct, fetchProducts, fetchBrands, fetchTypes } from '../http/productAPI'
+import ShowImg from '../components/modals/ShowImg'
+import { deleteBrand, deleteType, deleteProduct } from '../http/productAPI'
 import { Context } from '../index'
 import * as Icon from 'react-bootstrap-icons';
 import { observer } from 'mobx-react-lite'
+import useFetchInfo from '../hooks/useFetchInfo'
+import useLocalImgStorageStates from '../hooks/useLocalStorageImgStates'
 
 const Admin = observer(() => {
     const { product } = useContext(Context)
 
-    useEffect(() => {
-        fetchTypes().then(data => product.setTypes(data))
-        fetchBrands().then(data => product.setBrands(data))
-        fetchProducts(null, null, 1, 2).then(data => {
-            product.setProducts(data.rows)
-            product.setTotalCount(data.count)
-        })
-    }, [product])
+    useFetchInfo()
+
+    const [showImage, setShowImage] = useLocalImgStorageStates('imgStates', {})
 
     let typesObj = {}
     for (let type of product.types) {
@@ -76,7 +74,7 @@ const Admin = observer(() => {
     }
 
     return (
-        <Container>
+        <Container >
             <Row className="mt-3">
                 <Col className="d-flex flex-column">
                     <Tabs
@@ -231,9 +229,9 @@ const Admin = observer(() => {
                                     </Button>
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="d-flex">
                                 <Col className="d-flex flex-column mt-4">
-                                    <Table bordered hover>
+                                    <Table bordered hover >
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -259,7 +257,6 @@ const Admin = observer(() => {
                                                     <th style={{ width: '10%' }}>
                                                         {product.price} ₽
                                                     </th>
-
                                                     <th style={{ width: '15%' }}>
                                                         {Object.keys(typesObj).includes(String(product.typeId)) ? typesObj[product.typeId] : '-'}
                                                     </th>
@@ -267,33 +264,42 @@ const Admin = observer(() => {
                                                         {Object.keys(brandsObj).includes(String(product.brandId)) ? brandsObj[product.brandId] : '-'}
                                                     </th>
                                                     <th style={{ width: '20%' }}>
-                                                        <Row>
-                                                            <Col className="d-grid">
-                                                                <Button
-                                                                    onClick={() => {
-                                                                        navigate(ADMIN_EDIT_ROUTE + '/product/' + product.id)
-                                                                    }}
-                                                                    variant="outline-dark"
-                                                                    size="sm"
-                                                                >
-                                                                    Изменить <Icon.PenFill />
-                                                                </Button>
-
-                                                            </Col>
-                                                            <Col className="d-grid">
-                                                                <Button
-                                                                    variant="outline-danger"
-                                                                    size="sm"
-                                                                    onClick={() => {
-                                                                        if (window.confirm(`Вы действительно хотите удалить продукт '${product.name}'?`)) {
-                                                                            removeProduct(product.name)
-                                                                        }
-                                                                    }}
-                                                                >
-                                                                    Удалить <Icon.Trash3 />
-                                                                </Button>
-                                                            </Col>
-                                                        </Row>
+                                                        <div className="d-flex justify-content-center">
+                                                            <Button
+                                                                className="mx-4"
+                                                                variant="outline-primary"
+                                                                onClick={() => {
+                                                                    setShowImage({...showImage, [product.id]: true})
+                                                                }}
+                                                            >
+                                                                <Icon.CameraFill />
+                                                            </Button>
+                                                            <Button
+                                                                className="mx-4"
+                                                                onClick={() => {
+                                                                    navigate(ADMIN_EDIT_ROUTE + '/product/' + product.id)
+                                                                }}
+                                                                variant="outline-dark"
+                                                            >
+                                                                <Icon.PenFill />
+                                                            </Button>
+                                                            <Button
+                                                                className="mx-4"
+                                                                variant="outline-danger"
+                                                                onClick={() => {
+                                                                    if (window.confirm(`Вы действительно хотите удалить продукт '${product.name}'?`)) {
+                                                                        removeProduct(product.name)
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <Icon.Trash3 />
+                                                            </Button>
+                                                            <ShowImg
+                                                                show={showImage[product.id]}
+                                                                onHide={() => setShowImage({...showImage, [product.id]: false })}
+                                                                imgSrc={process.env.REACT_APP_API_URL + product.img}
+                                                            />
+                                                        </div>
                                                     </th>
                                                 </tr>
                                             )}
