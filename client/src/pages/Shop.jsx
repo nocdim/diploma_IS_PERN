@@ -15,13 +15,6 @@ const Shop = observer(() => {
 
     useFetchInfo()
 
-    useEffect(() => {
-        fetchProducts(product.selectedType.id, product.selectedBrand.id, product.page, 4).then(data => {
-            product.setProducts(data.rows)
-            product.setTotalCount(data.count)
-        })
-    }, [product, product.page, product.selectedType, product.selectedBrand])
-
     return (
         <Container>
             <Row className="mt-2">

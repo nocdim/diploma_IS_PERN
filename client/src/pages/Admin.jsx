@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
-import { ADMIN_EDIT_ROUTE } from '../utils/consts'
+import { ADMIN_EDIT_ROUTE, ADMIN_ROUTE } from '../utils/consts'
 import { Button, Col, Container, Row, Card, Tabs, Tab, Table } from 'react-bootstrap'
 import CreateBrand from '../components/modals/CreateBrand'
 import CreateProduct from '../components/modals/CreateProduct'
 import CreateType from '../components/modals/CreateType'
 import ShowImg from '../components/modals/ShowImg'
-import { deleteBrand, deleteType, deleteProduct } from '../http/productAPI'
+import { deleteBrand, deleteType, deleteProduct, fetchProducts } from '../http/productAPI'
 import { Context } from '../index'
 import * as Icon from 'react-bootstrap-icons';
 import { observer } from 'mobx-react-lite'
