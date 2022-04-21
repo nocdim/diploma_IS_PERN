@@ -6,8 +6,9 @@ import CreateType from '../components/modals/CreateType'
 import { deleteType } from '../http/productAPI'
 import { Context } from '../index'
 import { useNavigate } from "react-router-dom"
+import { observer } from 'mobx-react-lite';
 
-const TypeInfo = () => {
+const TypeInfo = observer(() => {
     const { product } = useContext(Context)
     const navigate = useNavigate()
 
@@ -41,13 +42,11 @@ const TypeInfo = () => {
                     <Col className="d-flex flex-column mt-4"
                         md="auto"
                         key={type.id}
-
                     >
                         <Card
                             style={{ cursor: 'pointer', width: '196px' }}
                             key={type.id}
                             border={'white'}
-
                         >
                             <Card.Title>
                                 {type.name}
@@ -67,7 +66,6 @@ const TypeInfo = () => {
                                         >
                                             <Icon.PenFill />
                                         </Button>
-
                                     </Col>
                                     <Col className="d-flex flex-column">
                                         <Button
@@ -91,6 +89,6 @@ const TypeInfo = () => {
             <CreateType show={typeVisible} onHide={() => setTypeVisible(false)} />
         </div>
     )
-}
+})
 
 export default TypeInfo

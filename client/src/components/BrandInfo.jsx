@@ -6,8 +6,10 @@ import { Context } from '../index'
 import { useNavigate } from "react-router-dom"
 import CreateBrand from '../components/modals/CreateBrand'
 import { deleteBrand } from '../http/productAPI'
+import { observer } from 'mobx-react-lite'
 
-const BrandInfo = () => {
+const BrandInfo = observer(() => {
+    
     const { product } = useContext(Context)
     const navigate = useNavigate()
 
@@ -96,6 +98,6 @@ const BrandInfo = () => {
             <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)} />
         </div>
     )
-}
+})
 
 export default BrandInfo

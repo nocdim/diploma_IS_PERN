@@ -40,8 +40,6 @@ const Admin = observer(() => {
                     </Tabs>
                 </Col>
             </Row>
-            
-            
         </Container>
     )
 })

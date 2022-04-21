@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { ADMIN_EDIT_ROUTE } from '../utils/consts'
 import { useNavigate } from "react-router-dom"
 import { Col, Row, Table, Button } from 'react-bootstrap'
@@ -8,9 +8,11 @@ import { Context } from '../index'
 import useLocalImgStorageStates from '../hooks/useLocalStorageImgStates'
 import CreateProduct from '../components/modals/CreateProduct'
 import ShowImg from './modals/ShowImg'
+import { observer } from 'mobx-react-lite'
 
+const ProductInfo = observer(() => {
+    
 
-const ProductInfo = () => {
     const { product } = useContext(Context)
     const navigate = useNavigate()
 
@@ -130,6 +132,6 @@ const ProductInfo = () => {
             <CreateProduct show={productVisible} onHide={() => setProductVisible(false)} />
         </div>
     )
-}
+})
 
 export default ProductInfo

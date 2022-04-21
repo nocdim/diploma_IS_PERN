@@ -6,7 +6,6 @@ import { ADMIN_ROUTE } from '../utils/consts'
 const useFetchInfo = () => {
     const { product } = useContext(Context)
 
-
     useEffect(() => {
         fetchTypes().then(data => product.setTypes(data))
         fetchBrands().then(data => product.setBrands(data))
