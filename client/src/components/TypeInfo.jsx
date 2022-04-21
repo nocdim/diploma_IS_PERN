@@ -6,7 +6,8 @@ import CreateType from '../components/modals/CreateType'
 import { deleteType } from '../http/productAPI'
 import { Context } from '../index'
 import { useNavigate } from "react-router-dom"
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite'
+import "../styles/admin.css"
 
 const TypeInfo = observer(() => {
     const { product } = useContext(Context)
@@ -54,6 +55,7 @@ const TypeInfo = observer(() => {
                             <Card.Img
                                 variant="top"
                                 src={process.env.REACT_APP_API_URL + type.img}
+                                className="img"
                             />
                             <Card.Body >
                                 <Row>
