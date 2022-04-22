@@ -148,7 +148,6 @@ const EditProductPage = observer(() => {
                                         {product.types.map(type =>
                                             <Dropdown.Item
                                                 onClick={() => {
-                                                    console.log(product.setSelectedType.name)
                                                     product.setSelectedType(type)
                                                 }}
                                                 key={type.id}

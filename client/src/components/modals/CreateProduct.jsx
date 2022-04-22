@@ -25,8 +25,6 @@ const CreateProduct = observer(({ show, onHide }) => {
         setInfo(info.map(i => i.number === number ? { ...i, [key]: value } : i))
     }
 
-    console.log(info)
-
     const imgUpload = (event) => {
         event.preventDefault()
         fileInputRef.current.click()
@@ -126,7 +124,6 @@ const CreateProduct = observer(({ show, onHide }) => {
                                                     {product.types.map(type =>
                                                         <Dropdown.Item
                                                             onClick={() => {
-                                                                console.log(product.setSelectedType.name)
                                                                 product.setSelectedType(type)
                                                             }}
                                                             key={type.id}
