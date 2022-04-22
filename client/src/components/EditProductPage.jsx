@@ -8,6 +8,7 @@ import { fetchOneProduct } from '../http/productAPI'
 import { Context } from "../index.js"
 import useFetchInfo from '../hooks/useFetchInfo';
 import { observer } from 'mobx-react-lite';
+import { ADMIN_ROUTE } from '../utils/consts';
 
 const EditProductPage = observer(() => {
     const { product } = useContext(Context)
@@ -247,6 +248,23 @@ const EditProductPage = observer(() => {
                         </Col>
                     </Row>
                 )}
+                <hr />
+                <div className="d-flex justify-content-end">
+                    <Button
+                        style={{ width: '90px' }}
+                        className="mx-2"
+                        variant="outline-danger"
+                        onClick={() => navigate(ADMIN_ROUTE)}
+                    >
+                        Назад
+                    </Button>
+                    <Button
+                        variant="outline-success"
+
+                    >
+                        Изменить
+                    </Button>
+                </div>
             </Form>
         </div>
     )
