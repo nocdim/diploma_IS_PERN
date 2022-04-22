@@ -44,5 +44,5 @@ exports.product = [
     .isLength({ min: 1 }),
     check('price', 'Поле "Стоимость" неккоректно')
     .exists()
-    .isFloat({ min: 0.1 }),
+    .isFloat({ min: 0.1, max: 9999999 }),
 ]
