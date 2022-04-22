@@ -4,14 +4,10 @@ import TypeBar from '../components/TypeBar'
 import BrandBar from '../components/BrandBar'
 import ProductList from '../components/ProductList'
 import { observer } from 'mobx-react-lite'
-import { Context } from '../index'
-import { fetchProducts } from "../http/productAPI"
 import Pages from "../components/Pages"
 import useFetchInfo from '../hooks/useFetchInfo'
 
 const Shop = observer(() => {
-
-    const { product } = useContext(Context)
 
     useFetchInfo()
 

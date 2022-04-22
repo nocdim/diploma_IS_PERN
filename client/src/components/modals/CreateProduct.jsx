@@ -15,8 +15,6 @@ const CreateProduct = observer(({ show, onHide }) => {
     const [info, setInfo] = useState([])
     const fileInputRef = useRef()
 
-    
-
     const addInfo = () => {
         setInfo([...info, { title: '', description: '', number: Date.now() }])
     }
@@ -26,6 +24,8 @@ const CreateProduct = observer(({ show, onHide }) => {
     const changeInfo = (key, value, number) => {
         setInfo(info.map(i => i.number === number ? { ...i, [key]: value } : i))
     }
+
+    console.log(info)
 
     const imgUpload = (event) => {
         event.preventDefault()
@@ -125,7 +125,10 @@ const CreateProduct = observer(({ show, onHide }) => {
                                                 <Dropdown.Menu>
                                                     {product.types.map(type =>
                                                         <Dropdown.Item
-                                                            onClick={() => product.setSelectedType(type)}
+                                                            onClick={() => {
+                                                                console.log(product.setSelectedType.name)
+                                                                product.setSelectedType(type)
+                                                            }}
                                                             key={type.id}
                                                         >
                                                             {type.name}

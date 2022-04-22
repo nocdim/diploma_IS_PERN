@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import "../styles/admin.css"
 import EditTypePage from '../components/EditTypePage';
 import EditBrandPage from '../components/EditBrandPage';
+import EditProductPage from '../components/EditProductPage';
 
 const AdminEditPage = () => {
     let { subject } = useParams()
@@ -21,7 +22,7 @@ const AdminEditPage = () => {
                     :
                     subject === 'product'
                         ?
-                        <h2 className="mt-4">Редактирование продукта</h2>
+                        <EditProductPage />
                         :
                         <div>
                             <Row >
@@ -34,7 +35,8 @@ const AdminEditPage = () => {
                                     <Button
                                         onClick={() => {window.history.go(-1); return false}}
                                         size="lg"
-                                    >Назад <Icon.ArrowReturnLeft />
+                                    >
+                                        Назад <Icon.ArrowReturnLeft />
                                     </Button>
                                 </Col>
                             </Row>
