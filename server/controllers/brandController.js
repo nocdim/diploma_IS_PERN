@@ -53,7 +53,7 @@ class BrandController {
             if (brandExists) {
                 if (brandExists.name === oldName) {
                     return next(ApiError.badRequest('Пожалуйста, внесите изменения'))
-                } else return next(ApiError.badRequest('Производитель с таким названием уже существует'))
+                }
             } 
             
             const brand = await Brand.update({ name: name }, {

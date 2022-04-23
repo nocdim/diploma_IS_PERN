@@ -65,9 +65,6 @@ class TypeController {
                 if (typeExists.name !== oldName) {
                     return next(ApiError.badRequest('Раздел с таким названием уже существует'))
                 }
-                if (typeExists.name === oldName && (!req.files || Object.keys(req.files).length === 0)) {
-                    return next(ApiError.badRequest('Пожалуйста, внесите изменения'))
-                }
             }
             
             if (!req.files || Object.keys(req.files).length === 0) {
