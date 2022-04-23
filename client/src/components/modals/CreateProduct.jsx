@@ -15,6 +15,21 @@ const CreateProduct = observer(({ show, onHide }) => {
     const [info, setInfo] = useState([])
     const fileInputRef = useRef()
 
+    let types = []
+    product.types.forEach(type => {
+        types.push(type)
+    })
+    types.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
+    let brands = []
+    product.brands.forEach(brand => {
+        brands.push(brand)
+    })
+    brands.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
+
     const addInfo = () => {
         setInfo([...info, { title: '', description: '', number: Date.now() }])
     }
@@ -121,7 +136,7 @@ const CreateProduct = observer(({ show, onHide }) => {
                                             <Dropdown className="d-grid mt-2">
                                                 <Dropdown.Toggle>{product.selectedType.name || "Выберите раздел"}</Dropdown.Toggle>
                                                 <Dropdown.Menu>
-                                                    {product.types.map(type =>
+                                                    {types.map(type =>
                                                         <Dropdown.Item
                                                             onClick={() => {
                                                                 product.setSelectedType(type)
@@ -138,7 +153,7 @@ const CreateProduct = observer(({ show, onHide }) => {
                                             <Dropdown className="d-grid mt-2">
                                                 <Dropdown.Toggle>{product.selectedBrand.name || "Выберите производителя"}</Dropdown.Toggle>
                                                 <Dropdown.Menu>
-                                                    {product.brands.map(brand =>
+                                                    {brands.map(brand =>
                                                         <Dropdown.Item
                                                             onClick={() => product.setSelectedBrand(brand)}
                                                             key={brand.id}

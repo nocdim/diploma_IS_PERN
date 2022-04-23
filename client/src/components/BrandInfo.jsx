@@ -12,6 +12,13 @@ const BrandInfo = observer(() => {
     
     const { product } = useContext(Context)
     const navigate = useNavigate()
+    let brands = []
+    product.brands.forEach(brand => {
+        brands.push(brand)
+    })
+    brands.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
 
     const [brandVisible, setBrandVisible] = useState(false)
 
@@ -49,7 +56,7 @@ const BrandInfo = observer(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            {product.brands.map(brand =>
+                            {brands.map(brand =>
                                 <tr
                                     md="auto"
                                     key={brand.id}

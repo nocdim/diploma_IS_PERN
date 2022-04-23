@@ -13,6 +13,14 @@ const TypeInfo = observer(() => {
     const { product } = useContext(Context)
     const navigate = useNavigate()
 
+    let types = []
+    product.types.forEach(type => {
+        types.push(type)
+    })
+    types.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
+
     const [typeVisible, setTypeVisible] = useState(false)
 
     const removeType = async (name) => {
@@ -39,7 +47,7 @@ const TypeInfo = observer(() => {
                 </Col>
             </Row>
             <Row >
-                {product.types.map(type =>
+                {types.map(type =>
                     <Col className="d-flex flex-column mt-4"
                         md="auto"
                         key={type.id}

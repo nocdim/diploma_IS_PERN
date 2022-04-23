@@ -11,10 +11,16 @@ import ShowImg from './modals/ShowImg'
 import { observer } from 'mobx-react-lite'
 
 const ProductInfo = observer(() => {
-    
-
     const { product } = useContext(Context)
     const navigate = useNavigate()
+
+    let products = []
+    product.products.forEach(product => {
+        products.push(product)
+    })
+    products.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
 
     const [productVisible, setProductVisible] = useState(false)
     const [showImage, setShowImage] = useLocalImgStorageStates('imgStates', {})
@@ -65,7 +71,7 @@ const ProductInfo = observer(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            {product.products.map(product =>
+                            {products.map(product =>
                                 <tr
                                     md="auto"
                                     key={product.id}
