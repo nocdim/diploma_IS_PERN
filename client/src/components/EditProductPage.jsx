@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Container, Row, Button, Col, Form, Dropdown, InputGroup } from 'react-bootstrap';
-import * as Icon from 'react-bootstrap-icons';
+import { Row, Button, Col, Form, Dropdown, InputGroup } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom'
 import "../styles/admin.css"
 import AdminLoader from './AdminLoader';
-import { fetchOneProduct } from '../http/productAPI'
+import { fetchOneProduct, updateProduct } from '../http/productAPI'
 import { Context } from "../index.js"
 import useFetchInfo from '../hooks/useFetchInfo';
 import { observer } from 'mobx-react-lite';
@@ -24,15 +23,6 @@ const EditProductPage = observer(() => {
     let { id } = useParams()
     const fileInputRef = useRef()
     const navigate = useNavigate()
-
-    let typesObj = {}
-    let brandsObj = {}
-    for (let type of product.types) {
-        typesObj[type.id] = type.name
-    }
-    for (let brand of product.brands) {
-        brandsObj[brand.id] = brand.name
-    }
 
     const addInfo = () => {
         setInfo([...info, { title: '', description: '', number: Date.now() }])
@@ -59,7 +49,16 @@ const EditProductPage = observer(() => {
             info.push({ title: i.title, description: i.description, number: Date.now() + count })
             count++
         })
-
+        product.types.forEach(type => {
+            if (type.id === productInfo.typeId) {
+                product.setSelectedType(type)
+            }
+        })
+        product.brands.forEach(brand => {
+            if (brand.id === productInfo.brandId) {
+                product.setSelectedBrand(brand)
+            }
+        })
     }, [productInfo])
 
     useEffect(() => {
@@ -85,6 +84,24 @@ const EditProductPage = observer(() => {
             setImage(file)
         } else {
             setImage(null)
+        }
+    }
+
+    const changeProduct = async () => {
+        try {
+            const formData = new FormData()
+            formData.append('name', newName)
+            formData.append('oldName', productInfo.name)
+            formData.append('price', newPrice)
+            formData.append('img', image)
+            formData.append('brandId', product.selectedBrand.id)
+            formData.append('typeId', product.selectedType.id)
+            formData.append('info', JSON.stringify(info))
+            await updateProduct(formData)
+            alert(`Раздел '${newName}' был успешно обновлён`)
+            navigate(ADMIN_ROUTE)
+        } catch (e) {
+            alert(e.response.data.message)
         }
     }
 
@@ -137,17 +154,13 @@ const EditProductPage = observer(() => {
                             <Col>
                                 <Dropdown className="d-grid">
                                     <Dropdown.Toggle>
-                                        {product.selectedType.name
-                                            ? product.selectedType.name
-                                            : Object.keys(typesObj).includes(String(productInfo.typeId))
-                                                ? typesObj[productInfo.typeId]
-                                                : '-'
-                                        }
+                                        {product.selectedType.name}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         {product.types.map(type =>
                                             <Dropdown.Item
                                                 onClick={() => {
+                                                    console.log(type)
                                                     product.setSelectedType(type)
                                                 }}
                                                 key={type.id}
@@ -161,12 +174,7 @@ const EditProductPage = observer(() => {
                             <Col>
                                 <Dropdown className="d-grid">
                                     <Dropdown.Toggle>
-                                        {product.selectedBrand.name
-                                            ? product.selectedBrand.name
-                                            : Object.keys(brandsObj).includes(String(productInfo.brandId))
-                                                ? brandsObj[productInfo.brandId]
-                                                : '-'
-                                        }
+                                        {product.selectedBrand.name}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         {product.brands.map(brand =>
@@ -259,7 +267,7 @@ const EditProductPage = observer(() => {
                     </Button>
                     <Button
                         variant="outline-success"
-
+                        onClick={changeProduct}
                     >
                         Изменить
                     </Button>

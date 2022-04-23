@@ -60,7 +60,6 @@ class TypeController {
             const typeExists = await Type.findOne(
                 { where: { name } }
             )
-            console.log(oldName + ' --> ' + name)
             
             if (typeExists) {
                 if (typeExists.name !== oldName) {
@@ -85,24 +84,6 @@ class TypeController {
                 where: { name: oldName }
             })
             return res.json(type)
-
-
-            // if (!req.files || Object.keys(req.files).length === 0) {
-            //     if (typeExists.name === oldName) {
-            //          const type = await Type.update({ name: name }, {
-            //              where: { name: oldName }
-            //          })
-            //             return res.json(type)
-            //         } else return next(ApiError.badRequest('Раздел с таким названием уже существует'))    
-            //     } else {
-            //         const { img } = req.files
-            //         let fileName = uuid.v4() + ".jpg"
-            //         img.mv(path.resolve(__dirname, '..', 'static', fileName))
-            //         const type = await Type.update({ name: name, img: fileName }, {
-            //             where: { name: oldName }
-            //         })
-            //         return res.json(type)
-            //     }
 
         } catch (e) {
             next(ApiError.badRequest(e.message))

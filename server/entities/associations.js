@@ -138,8 +138,8 @@ Rating.belongsTo(User)
 Basket.hasMany(BasketProduct)
 BasketProduct.belongsTo(Basket)
 
-Type.hasMany(Product)
-Product.belongsTo(Type)
+Type.hasMany(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
+Product.belongsTo(Type, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
 Brand.hasMany(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 Product.belongsTo(Brand, { onDelete: "CASCADE", onUpdate: "CASCADE" })
@@ -150,12 +150,12 @@ Rating.belongsTo(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 Product.hasMany(BasketProduct, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 BasketProduct.belongsTo(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
-Product.hasMany(ProductInfo, {as: 'info'})
-ProductInfo.belongsTo(Product)
+Product.hasMany(ProductInfo, {as: 'info', onDelete: "CASCADE", onUpdate: "CASCADE"})
+ProductInfo.belongsTo(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
 // Связь многие ко многим
-Type.belongsToMany(Brand, {through: 'type_brand'})
-Brand.belongsToMany(Type, {through: 'type_brand'})
+Type.belongsToMany(Brand, {through: 'type_brand', onDelete: "CASCADE", onUpdate: "CASCADE"})
+Brand.belongsToMany(Type, {through: 'type_brand', onDelete: "CASCADE", onUpdate: "CASCADE"})
 
 // Синхронизируем все сущности нашей БД
 sequelize.sync({alter: true})

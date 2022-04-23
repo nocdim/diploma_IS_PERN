@@ -6,7 +6,7 @@ export const createType = async (type) => {
 }
 
 export const updateType = async (type) => {
-    const {data} = await $authHost.put(`api/type/:${type.oldName}`, type)
+    const {data} = await $authHost.put('api/type/', type)
     return data
 }
 
@@ -54,8 +54,9 @@ export const createProduct = async (product) => {
     return data
 }
 
-export const deleteProduct = async (product) => {
-    await $authHost.delete(`api/product/:${product.name}`, product)
+export const updateProduct = async (product) => {
+    const {data} = await $authHost.put('api/product', product)
+    return data
 }
 
 export const fetchProducts = async (typeId, brandId, page, limit = 5) => {
@@ -68,4 +69,8 @@ export const fetchProducts = async (typeId, brandId, page, limit = 5) => {
 export const fetchOneProduct = async (id) => {
     const {data} = await $host.get('api/product/' + id)
     return data
+}
+
+export const deleteProduct = async (product) => {
+    await $authHost.delete(`api/product/:${product.name}`, product)
 }
