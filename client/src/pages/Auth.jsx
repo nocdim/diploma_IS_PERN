@@ -24,9 +24,10 @@ const Auth = observer(() => {
                 data = await registration(email, password, confirmPass)
             }
             user.setUser(user)
+            user.setRole(data.role)
             user.setIsAuth(true)
             navigate(SHOP_ROUTE)
-            window.location.reload()
+            // window.location.reload()
         } catch (e) {
             alert(e.response.data.message)
         }

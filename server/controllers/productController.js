@@ -97,6 +97,19 @@ class ProductController {
                     {
                         where: { name: oldName }
                     })
+                if (info) {
+                    info = JSON.parse(info)
+                    await ProductInfo.destroy({
+                        where: { productId: oldProduct.id }
+                    })
+                    info.forEach(i =>
+                        ProductInfo.create({
+                            title: i.title,
+                            description: i.description,
+                            productId: oldProduct.id
+                        })
+                    )
+                }
                 let products = await Product.findAndCountAll({
                     where: { typeId: oldProduct.typeId, brandId: oldProduct.brandId }
                 })
@@ -112,8 +125,8 @@ class ProductController {
                         return res.json(typeBrandBond)
                     }
                 } else {
-                        const typeBrandBond = await TypeBrand.update({typeId: typeId, brandId: brandId}, {
-                        where: { typeId: oldProduct.typeId, brandId: oldProduct.brandId } 
+                    const typeBrandBond = await TypeBrand.update({ typeId: typeId, brandId: brandId }, {
+                        where: { typeId: oldProduct.typeId, brandId: oldProduct.brandId }
                     })
                     return res.json(typeBrandBond)
                 }
@@ -161,8 +174,8 @@ class ProductController {
                     return res.json(typeBrandBond)
                 }
             } else {
-                    const typeBrandBond = await TypeBrand.update({typeId: typeId, brandId: brandId}, {
-                    where: { typeId: oldProduct.typeId, brandId: oldProduct.brandId } 
+                const typeBrandBond = await TypeBrand.update({ typeId: typeId, brandId: brandId }, {
+                    where: { typeId: oldProduct.typeId, brandId: oldProduct.brandId }
                 })
                 return res.json(typeBrandBond)
             }

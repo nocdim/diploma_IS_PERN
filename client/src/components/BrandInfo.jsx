@@ -9,10 +9,10 @@ import { deleteBrand } from '../http/productAPI'
 import { observer } from 'mobx-react-lite'
 
 const BrandInfo = observer(() => {
-    
+
     const { product } = useContext(Context)
     const navigate = useNavigate()
-    let brands = []
+    let brands = [];
     product.brands.forEach(brand => {
         brands.push(brand)
     })
@@ -50,8 +50,12 @@ const BrandInfo = observer(() => {
                     <Table bordered hover>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Название</th>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Название
+                                </th>
                                 <th>Опции</th>
                             </tr>
                         </thead>

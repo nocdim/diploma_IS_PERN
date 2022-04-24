@@ -15,37 +15,47 @@ const NavBar = observer(() => {
 
     const logOut = () => {
         user.setUser({})
+        user.setRole('')
         user.setIsAuth(false)
     }
 
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <NavLink style={{color:'white', underline:'none'}} to={SHOP_ROUTE}>Food Shop</NavLink>
-                {user.isAuth ?
-                <Nav className="ml-auto" style={{color:'white'}}>
-                    <Button 
-                    variant={"outline-light"} 
-                    onClick={() => navigate(ADMIN_ROUTE)}
-                    >
-                    Админ панель
-                    </Button>
-                    <Button 
-                    variant={"outline-light"} 
-                    onClick={() => logOut()}
-                    >
-                    Выйти
-                    </Button>
-                </Nav>
-                :
-                <Nav className="ml-auto" style={{color:'white'}}>
-                    <Button 
-                    variant={"outline-light"}
-                    onClick={() => navigate(LOGIN_ROUTE)}
-                    
-                    >
-                        Авторизация</Button>
-                </Nav>
+                <NavLink style={{ color: 'white' }} to={SHOP_ROUTE}>Food Shop</NavLink>
+                {user.isAuth & user.role === 'ADMIN' ?
+                    <Nav className="ml-auto" style={{ color: 'white' }}>
+                        <Button
+                            variant={"outline-light"}
+                            onClick={() => navigate(ADMIN_ROUTE)}
+                        >
+                            Админ панель
+                        </Button>
+                        <Button
+                            variant={"outline-light"}
+                            onClick={() => logOut()}
+                        >
+                            Выйти
+                        </Button>
+                    </Nav>
+                    : user.isAuth & user.role === 'USER' ?
+                        <Nav className="ml-auto" style={{ color: 'white' }}>
+                            <Button
+                                variant={"outline-light"}
+                                onClick={() => logOut()}
+                            >
+                                Выйти
+                            </Button>
+                        </Nav>
+                        :
+                        <Nav className="ml-auto" style={{ color: 'white' }}>
+                            <Button
+                                variant={"outline-light"}
+                                onClick={() => navigate(LOGIN_ROUTE)}
+
+                            >
+                                Авторизация</Button>
+                        </Nav>
                 }
             </Container>
         </Navbar>
