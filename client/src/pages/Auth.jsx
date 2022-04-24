@@ -23,11 +23,13 @@ const Auth = observer(() => {
             } else {
                 data = await registration(email, password, confirmPass)
             }
+            localStorage.setItem('userInfo', user)
+            localStorage.setItem('userRole', data.role)
+            localStorage.setItem('userIsAuth', true)
             user.setUser(user)
             user.setRole(data.role)
             user.setIsAuth(true)
             navigate(SHOP_ROUTE)
-            // window.location.reload()
         } catch (e) {
             alert(e.response.data.message)
         }

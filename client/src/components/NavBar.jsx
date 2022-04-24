@@ -14,6 +14,9 @@ const NavBar = observer(() => {
     const navigate = useNavigate()
 
     const logOut = () => {
+        localStorage.setItem('userInfo', {})
+        localStorage.setItem('userRole', '')
+        localStorage.setItem('userIsAuth', false)
         user.setUser({})
         user.setRole('')
         user.setIsAuth(false)
