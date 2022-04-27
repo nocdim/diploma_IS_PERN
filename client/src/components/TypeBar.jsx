@@ -5,9 +5,16 @@ import { ListGroup } from "react-bootstrap"
 
 const TypeBar = observer(() => {
     const { product } = useContext(Context)
+    let types = []
+    product.types.forEach(type => {
+        types.push(type)
+    })
+    types.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
     return (
         <ListGroup>
-            {product.types.map(type => 
+            {types.map(type => 
                 <ListGroup.Item
                 style={{cursor: 'pointer'}} 
                 active={type.id === product.selectedType.id}

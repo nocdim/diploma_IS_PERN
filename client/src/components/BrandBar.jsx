@@ -5,6 +5,15 @@ import { Context } from "../index"
 
 const BrandBar = observer(() => {
     const { product } = useContext(Context)
+    
+    let brands = []
+    product.brands.forEach(brand => {
+        brands.push(brand)
+    })
+    brands.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
+
     return (
         <div className="d-flex">
             {product.brands.map(brand => 
