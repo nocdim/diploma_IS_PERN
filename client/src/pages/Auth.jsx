@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react'
-import { Card, Container, Form, Button, Row } from 'react-bootstrap'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { REGISTRATION_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
 import { login, registration } from "../http/userAPI"
 import { observer } from 'mobx-react-lite';
 import { Context } from "../index"
+import Background from '../components/styled/Background'
+import Input from '../components/Input'
+import { Container, Form, Logo } from '../components/styled/Auth';
 
 const Auth = observer(() => {
     const { user } = useContext(Context)
@@ -33,62 +35,50 @@ const Auth = observer(() => {
         } catch (e) {
             alert(e.response.data.message)
         }
-
     }
 
     return (
-        <Container
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: window.innerHeight - 54 }}
-        >
-            <Card style={{ width: 600 }} className="p-5">
-                <h2 className="m-auto">{isLogin ? 'Авторизация' : "Регистрация"}</h2>
-                <Form className="d-flex flex-column">
-                    <Form.Control
-                        className="mt-3"
+        <Background>
+            <Container>
+                <Form>
+                    <Logo onClick={() => navigate(SHOP_ROUTE)}>
+                        Food<span>Shop</span>
+                    </Logo>
+                    <h3>{isLogin ? 'Авторизация' : "Регистрация"}</h3>
+                    <Input
+                        type="email"
                         placeholder="Введите ваш email..."
                         value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={value => setEmail(value)}
                     />
-                    <Form.Control
-                        className="mt-3"
+                    <Input
+                        type="password"
                         placeholder="Введите ваш пароль..."
                         value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        type="password"
+                        onChange={value => setPassword(value)}
                     />
-                    {!isLogin 
-                    ? 
-                    <Form.Control
-                        className="mt-3"
-                        placeholder="Подтвердите ваш пароль..."
-                        value={confirmPass}
-                        onChange={e => setConfirmPass(e.target.value)}
-                        type="password"
-                    />
-                    : <></>
+                    {!isLogin
+                        ?
+                        <Input
+                            type="password"
+                            placeholder="Подтвердите ваш пароль..."
+                            value={confirmPass}
+                            onChange={value => setConfirmPass(value)}
+                        />
+                        : <></>
                     }
-                    <Row className="d-flex justify-content-between mt-3">
-                        {isLogin ?
-                            <div>
-                                Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйся!</NavLink>
-                            </div>
-                            :
-                            <div>
-                                Есть аккаунт? <NavLink to={LOGIN_ROUTE}>Войдите!</NavLink>
-                            </div>
-                        }
-                        <Button
-                            onClick={click}
-                            className="mt-3 align-self-end"
-                            variant={"outline-success"}>
-                            {isLogin ? 'Войти' : 'Зарегистрироваться'}
-                        </Button>
-                    </Row>
-
+                    <button onClick={click}>
+                        {isLogin ? 'Войти' : 'Зарегистрироваться'}
+                    </button>
+                    {isLogin
+                        ?
+                        <h4>Нет аккаунта? <span onClick={() => navigate(REGISTRATION_ROUTE)}>Зарегистрируйтесь!</span></h4>
+                        :
+                        <h4>Есть аккаунт? <span onClick={() => navigate(LOGIN_ROUTE)}>Войдите!</span></h4>
+                    }
                 </Form>
-            </Card>
-        </Container>
+            </Container>
+        </Background>
     )
 })
 

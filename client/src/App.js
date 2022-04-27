@@ -7,6 +7,7 @@ import { Context } from './index';
 import { check } from './http/userAPI';
 import AdminLoader from './components/AdminLoader';
 
+
 const App = observer(() => {
   const { user } = useContext(Context)
   const [loading, setLoading] = useState(true)
@@ -25,10 +26,10 @@ const App = observer(() => {
   }
 
   return (
-    <BrowserRouter>
-      <NavBar />
-      <AppRouter />
-    </BrowserRouter>
+      <BrowserRouter>
+        <NavBar />
+        <AppRouter />
+      </BrowserRouter>
   );
 })
 

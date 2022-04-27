@@ -5,7 +5,6 @@ import useFetchInfo from '../hooks/useFetchInfo'
 import TypeInfo from '../components/TypeInfo'
 import BrandInfo from '../components/BrandInfo'
 import ProductInfo from '../components/ProductInfo'
-import { ADMIN_ROUTE } from '../utils/consts'
 
 const Admin = observer(() => {
 

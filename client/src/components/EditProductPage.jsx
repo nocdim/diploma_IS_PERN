@@ -45,7 +45,7 @@ const EditProductPage = observer(() => {
 
     useEffect(() => {
         let count = 0
-        productInfo.info.map((i) => {
+        productInfo.info.forEach((i) => {
             info.push({ title: i.title, description: i.description, number: Date.now() + count })
             count++
         })

@@ -1,17 +1,15 @@
-import React, { useContext } from 'react';
-import { Context } from "../index"
-import Navbar from "react-bootstrap/Navbar"
-import Container from "react-bootstrap/Container"
-import Nav from "react-bootstrap/Nav"
-import { NavLink } from 'react-router-dom';
-import { ADMIN_ROUTE, SHOP_ROUTE, LOGIN_ROUTE } from '../utils/consts';
-import { Button } from 'react-bootstrap';
-import { observer } from "mobx-react-lite"
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Context } from "../index"
+import { observer } from "mobx-react-lite"
+import { Nav, Options, Menu, MenuLink, Logo } from '../components/styled/Navbar'
+import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
 
 const NavBar = observer(() => {
+    const [isOpen, setIsOpen] = useState(false)
     const { user } = useContext(Context)
     const navigate = useNavigate()
+    let link = window.location.href.substring(21)
 
     const logOut = () => {
         localStorage.setItem('userInfo', {})
@@ -23,45 +21,32 @@ const NavBar = observer(() => {
     }
 
     return (
-        <Navbar bg="dark" variant="dark">
-            <Container>
-                <NavLink style={{ color: 'white' }} to={SHOP_ROUTE}>Food Shop</NavLink>
-                {user.isAuth & user.role === 'ADMIN' ?
-                    <Nav className="ml-auto" style={{ color: 'white' }}>
-                        <Button
-                            variant={"outline-light"}
-                            onClick={() => navigate(ADMIN_ROUTE)}
-                        >
-                            Админ панель
-                        </Button>
-                        <Button
-                            variant={"outline-light"}
-                            onClick={() => logOut()}
-                        >
-                            Выйти
-                        </Button>
-                    </Nav>
-                    : user.isAuth & user.role === 'USER' ?
-                        <Nav className="ml-auto" style={{ color: 'white' }}>
-                            <Button
-                                variant={"outline-light"}
-                                onClick={() => logOut()}
-                            >
-                                Выйти
-                            </Button>
-                        </Nav>
-                        :
-                        <Nav className="ml-auto" style={{ color: 'white' }}>
-                            <Button
-                                variant={"outline-light"}
-                                onClick={() => navigate(LOGIN_ROUTE)}
-
-                            >
-                                Авторизация</Button>
-                        </Nav>
-                }
-            </Container>
-        </Navbar>
+        <Nav link={link}>
+            <Logo onClick={() => navigate(SHOP_ROUTE)}>
+                Food<span>Shop</span>
+            </Logo>
+            <Options onClick={() => setIsOpen(!isOpen)}>
+                <span />
+                <span />
+                <span />
+            </Options>
+            {user.isAuth & user.role === 'ADMIN' ?
+                <Menu isOpen={isOpen}>
+                    <MenuLink onClick={() => navigate(ADMIN_ROUTE)}>Админ панель</MenuLink>
+                    <MenuLink onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
+                    <MenuLink onClick={() => logOut()}>Выйти</MenuLink>
+                </Menu>
+                : user.isAuth & user.role === 'USER' ?
+                <Menu isOpen={isOpen}>
+                    <MenuLink onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
+                    <MenuLink onClick={() => logOut()}>Выйти</MenuLink>
+                </Menu>
+                :
+                <Menu isOpen={isOpen}>
+                    <MenuLink onClick={() => navigate(LOGIN_ROUTE)}>Авторизация</MenuLink>
+                </Menu>
+            }
+        </Nav>
     )
 })
 
