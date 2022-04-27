@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts';
+import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts';
 
 const Nav = styled.div`
     padding: 0 2rem;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    background: white;
+    background: ${({link}) => (link.indexOf(ADMIN_ROUTE) !== -1 ? '#3a3055' : 'white')};
     display: ${({link}) => (link.indexOf(REGISTRATION_ROUTE) !== -1 || link.indexOf(LOGIN_ROUTE) !== -1 ? 'none' : 'flex')}
 `
 
