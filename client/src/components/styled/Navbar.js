@@ -37,7 +37,7 @@ const MenuLink = styled.a`
     transition: all 0.3s ease-in;
 
     &:hover {
-        color: #67bc98
+        color: ${({link}) => (link.indexOf(ADMIN_ROUTE) !== -1 ? 'silver' : '#67bc98')};
     }
 `
 

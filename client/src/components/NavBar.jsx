@@ -18,6 +18,7 @@ const NavBar = observer(() => {
         user.setUser({})
         user.setRole('')
         user.setIsAuth(false)
+        navigate(SHOP_ROUTE)
     }
 
     return (
@@ -32,18 +33,18 @@ const NavBar = observer(() => {
             </Options>
             {user.isAuth & user.role === 'ADMIN' ?
                 <Menu isOpen={isOpen}>
-                    <MenuLink onClick={() => navigate(ADMIN_ROUTE)}>Админ панель</MenuLink>
-                    <MenuLink onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
-                    <MenuLink onClick={() => logOut()}>Выйти</MenuLink>
+                    <MenuLink link={link} onClick={() => navigate(ADMIN_ROUTE)}>Админ панель</MenuLink>
+                    <MenuLink link={link} onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
+                    <MenuLink link={link} onClick={() => logOut()}>Выйти</MenuLink>
                 </Menu>
                 : user.isAuth & user.role === 'USER' ?
                 <Menu isOpen={isOpen}>
-                    <MenuLink onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
-                    <MenuLink onClick={() => logOut()}>Выйти</MenuLink>
+                    <MenuLink link={link} onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
+                    <MenuLink link={link} onClick={() => logOut()}>Выйти</MenuLink>
                 </Menu>
                 :
                 <Menu isOpen={isOpen}>
-                    <MenuLink onClick={() => navigate(LOGIN_ROUTE)}>Авторизация</MenuLink>
+                    <MenuLink link={link} onClick={() => navigate(LOGIN_ROUTE)}>Авторизация</MenuLink>
                 </Menu>
             }
         </Nav>
