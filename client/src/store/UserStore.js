@@ -5,9 +5,13 @@ export default class UserStore {
         this._isAuth = localStorage.getItem('userIsAuth')
         this._user = localStorage.getItem('userInfo')
         this._role = localStorage.getItem('userRole')
+        this._admins = []
         makeAutoObservable(this)
     }
 
+    setAdmins(admins) {
+        this._admins = admins
+    }
     setIsAuth(bool) {
         this._isAuth = bool
     }
@@ -16,6 +20,9 @@ export default class UserStore {
     }
     setRole(str) {
         this._role = str
+    }
+    get admins() {
+        return this._admins
     }
     get isAuth() {
         return this._isAuth

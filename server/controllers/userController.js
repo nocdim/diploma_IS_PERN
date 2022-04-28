@@ -44,6 +44,52 @@ class UserController {
 
         return res.json({token})
     }
+    async registrationAdmin(req, res, next) {
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+        let errs = []
+        for (let objs of errors.array()) {
+            errs.push(' ' + objs.msg + ' ')
+            }
+            return next(ApiError.badRequest(errs))
+        }
+        
+        const { name, password, role } = req.body
+
+        const candidate = await User.findOne({where: {email: name}})
+
+        if (candidate) {
+            return next(ApiError.badRequest('Администратор с таким email уже существует'))
+        }
+
+        const hashPassword = await bcrypt.hash(password, 5)
+        const user = await User.create({email: name, role, password: hashPassword})
+        const token = generateJwt(user.id, user.email, user.role)
+
+        return res.json({token})
+    }
+
+    async deleteAdmin(req, res, next) {
+        try {
+            let admins = await User.findAndCountAll({where: {
+                role: 'ADMIN'
+            }})
+            if (admins.count === 1) {
+                return next(ApiError.badRequest('Невозможно удалить последнюю учетную запись администратора!'))
+            }
+            let name = req.params.name.slice(1)
+            await User.destroy({
+                where: { 
+                    email: name 
+                }
+            })
+            return res.json("Администратор " + name + " был удалён успешно")
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
 
     async login(req, res, next) {
 
@@ -78,6 +124,11 @@ class UserController {
     async check(req, res, next) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role)
         return res.json({token})
+    }
+
+    async fetchAdmins(req, res) {
+        const admins = await User.findAll({where: { role: 'ADMIN' }})
+        return res.json(admins)
     }
 }
 

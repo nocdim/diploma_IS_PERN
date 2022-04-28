@@ -19,11 +19,12 @@ const Auth = observer(() => {
 
     const click = async () => {
         try {
+            let role
             let data
             if (isLogin) {
                 data = await login(email, password)
             } else {
-                data = await registration(email, password, confirmPass)
+                data = await registration(email, password, confirmPass, role = 'USER')
             }
             localStorage.setItem('userInfo', user)
             localStorage.setItem('userRole', data.role)

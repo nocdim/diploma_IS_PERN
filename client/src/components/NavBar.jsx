@@ -34,7 +34,6 @@ const NavBar = observer(() => {
             {user.isAuth & user.role === 'ADMIN' ?
                 <Menu isOpen={isOpen}>
                     <MenuLink link={link} onClick={() => navigate(ADMIN_ROUTE)}>Админ панель</MenuLink>
-                    <MenuLink link={link} onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
                     <MenuLink link={link} onClick={() => logOut()}>Выйти</MenuLink>
                 </Menu>
                 : user.isAuth & user.role === 'USER' ?

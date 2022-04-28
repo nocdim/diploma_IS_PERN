@@ -5,6 +5,7 @@ import useFetchInfo from '../hooks/useFetchInfo'
 import TypeInfo from '../components/TypeInfo'
 import BrandInfo from '../components/BrandInfo'
 import ProductInfo from '../components/ProductInfo'
+import AdminInfo from '../components/AdminInfo'
 
 const Admin = observer(() => {
 
@@ -36,6 +37,9 @@ const Admin = observer(() => {
                         </Tab>
                         <Tab eventKey="products" title="Продукты">
                             <ProductInfo />
+                        </Tab>
+                        <Tab eventKey="admin" title="Администрирование">
+                            <AdminInfo />
                         </Tab>
                     </Tabs>
                 </Col>

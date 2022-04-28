@@ -36,13 +36,13 @@ const TypeInfo = observer(() => {
     return (
         <div>
             <Row>
-                <Col className="d-flex flex-column" md={{ span: 3 }}>
+                <Col className="d-flex flex-column" md={{ span: 2 }}>
                     <Button
                         variant={"outline-primary"}
                         className="mt-4 p-2"
                         onClick={() => setTypeVisible(true)}
                     >
-                        Добавить производителя <Icon.LayersHalf />
+                        Добавить раздел <Icon.ListNested />
                     </Button>
                 </Col>
             </Row>
