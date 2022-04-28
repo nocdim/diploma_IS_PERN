@@ -10,17 +10,11 @@ class TypeController {
 
             const errors = validationResult(req)
 
-            if (!req.files || Object.keys(req.files).length === 0 || !errors.isEmpty()) {
+            if (!errors.isEmpty()) {
                 let errs = []
-
-                if (!req.files || Object.keys(req.files).length === 0) {
-                    errs.push(' Загрузите изображение ')
-                }
-
                 for (let objs of errors.array()) {
                     errs.push(' ' + objs.msg + ' ')
                 }
-
                 return next(ApiError.badRequest(errs))
             }
 
@@ -35,10 +29,7 @@ class TypeController {
                 return next(ApiError.badRequest('Раздел с таким названием уже существует'))
             }
 
-            const { img } = req.files
-            let fileName = uuid.v4() + ".jpg"
-            img.mv(path.resolve(__dirname, '..', 'static', fileName))
-            const type = await Type.create({ name, img: fileName })
+            const type = await Type.create({ name })
             return res.json(type)
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -66,18 +57,8 @@ class TypeController {
                     return next(ApiError.badRequest('Раздел с таким названием уже существует'))
                 }
             }
-            
-            if (!req.files || Object.keys(req.files).length === 0) {
-                const type = await Type.update({ name: name }, {
-                    where: { name: oldName }
-                })
-                return res.json(type)
-            }
 
-            const { img } = req.files
-            let fileName = uuid.v4() + ".jpg"
-            img.mv(path.resolve(__dirname, '..', 'static', fileName))
-            const type = await Type.update({ name: name, img: fileName }, {
+            const type = await Type.update({ name: name }, {
                 where: { name: oldName }
             })
             return res.json(type)

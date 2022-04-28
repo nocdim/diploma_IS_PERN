@@ -10,6 +10,7 @@ const NavBar = observer(() => {
     const { user } = useContext(Context)
     const navigate = useNavigate()
     let link = window.location.href.substring(21)
+    console.log(user)
 
     const logOut = () => {
         localStorage.setItem('userInfo', {})

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { ADMIN_EDIT_ROUTE } from '../utils/consts'
-import { Button, Col, Row, Card } from 'react-bootstrap'
+import { Button, Col, Row, Table } from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons';
 import CreateType from '../components/modals/CreateType'
 import { deleteType } from '../http/productAPI'
@@ -36,65 +36,76 @@ const TypeInfo = observer(() => {
     return (
         <div>
             <Row>
-                <Col className="d-flex flex-column" md={{ span: 2 }}>
+                <Col className="d-flex flex-column" md={{ span: 3 }}>
                     <Button
                         variant={"outline-primary"}
                         className="mt-4 p-2"
                         onClick={() => setTypeVisible(true)}
                     >
-                        Добавить раздел <Icon.FlagFill />
+                        Добавить производителя <Icon.LayersHalf />
                     </Button>
                 </Col>
             </Row>
-            <Row >
-                {types.map(type =>
-                    <Col className="d-flex flex-column mt-4"
-                        md="auto"
-                        key={type.id}
-                    >
-                        <Card
-                            style={{ cursor: 'pointer', width: '196px' }}
-                            key={type.id}
-                            border={'white'}
-                        >
-                            <Card.Title>
-                                {type.name}
-                            </Card.Title>
-                            <Card.Img
-                                variant="top"
-                                src={process.env.REACT_APP_API_URL + type.img}
-                                className="img"
-                            />
-                            <Card.Body >
-                                <Row>
-                                    <Col className="d-flex flex-column">
-                                        <Button
-                                            onClick={() => {
-                                                navigate(ADMIN_EDIT_ROUTE + '/type/' + type.id)
-                                            }}
-                                            variant="outline-dark"
-                                        >
-                                            <Icon.PenFill />
-                                        </Button>
-                                    </Col>
-                                    <Col className="d-flex flex-column">
-                                        <Button
-                                            variant="outline-danger"
-                                            key={type.id}
-                                            onClick={() => {
-                                                if (window.confirm(`Вы действительно хотите удалить раздел '${type.name}'?`)) {
-                                                    removeType(type.name)
-                                                }
-                                            }}
-                                        >
-                                            <Icon.Trash3 />
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                )}
+            <Row>
+                <Col className="d-flex flex-column mt-4" >
+                    <Table bordered hover>
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Название
+                                </th>
+                                <th>Опции</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {types.map(type =>
+                                <tr
+                                    md="auto"
+                                    key={type.id}
+                                >
+                                    <th style={{ width: '10%' }}>
+                                        {type.id}
+                                    </th>
+                                    <th style={{ width: '50%' }}>
+                                        {type.name}
+                                    </th>
+                                    <th>
+                                        <Row>
+                                            <Col className="d-grid">
+                                                <Button
+                                                    onClick={() => {
+                                                        navigate(ADMIN_EDIT_ROUTE + '/type/' + type.id)
+                                                    }}
+                                                    variant="outline-dark"
+                                                    size="sm"
+                                                >
+                                                    Изменить <Icon.PenFill />
+                                                </Button>
+
+                                            </Col>
+                                            <Col className="d-grid">
+                                                <Button
+                                                    variant="outline-danger"
+                                                    size="sm"
+                                                    onClick={() => {
+                                                        if (window.confirm(`Вы действительно хотите удалить производителя '${type.name}'?`)) {
+                                                            removeType(type.name)
+                                                        }
+                                                    }}
+                                                >
+                                                    Удалить <Icon.Trash3 />
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </th>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                </Col>
             </Row>
             <CreateType show={typeVisible} onHide={() => setTypeVisible(false)} />
         </div>

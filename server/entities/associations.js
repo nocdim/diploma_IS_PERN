@@ -72,10 +72,6 @@ const Type = sequelize.define('type', {
         type: DataTypes.STRING, 
         unique: true, 
         allowNull: false
-    },
-    img: {
-        type: DataTypes.STRING, 
-        allowNull: false
     }
 })
 
