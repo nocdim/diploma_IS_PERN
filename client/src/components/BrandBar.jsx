@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { Card } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite';
 import { Context } from "../index"
+import BrandItem from './BrandItem';
 
 const BrandBar = observer(() => {
     const { product } = useContext(Context)
-    
+
     let brands = []
     product.brands.forEach(brand => {
         brands.push(brand)
@@ -15,18 +15,15 @@ const BrandBar = observer(() => {
     })
 
     return (
-        <div className="d-flex">
-            {product.brands.map(brand => 
-                    <Card
-                        style={{cursor: 'pointer', margin: '1px'}}
-                        key={brand.id}
-                        className="p-3"
-                        onClick={() => product.setSelectedBrand(brand)}
-                        border={brand.id === product.selectedBrand.id ? 'primary' : 'seccondary'}
-                    >
-                        {brand.name}
-                    </Card>
-                )}
+        <div>
+            {brands.map(brand =>
+                <BrandItem
+                    text={brand.name}
+                    onClick={() => product.setSelectedBrand(brand)}
+                    active={brand.id === product.selectedBrand.id}
+                    key={brand.id}
+                />
+            )}
         </div>
     )
 })

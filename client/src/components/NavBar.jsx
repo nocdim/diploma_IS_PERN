@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../index"
 import { observer } from "mobx-react-lite"
-import { Nav, Options, Menu, MenuLink, Logo } from '../components/styled/Navbar'
+import { Nav, Options, Menu, MenuLink, Logo } from './styled/NavBar'
 import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
 
 const NavBar = observer(() => {
@@ -10,7 +10,6 @@ const NavBar = observer(() => {
     const { user } = useContext(Context)
     const navigate = useNavigate()
     let link = window.location.href.substring(21)
-    console.log(user)
 
     const logOut = () => {
         localStorage.setItem('userInfo', {})

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Context } from "../index"
-import { ListGroup } from "react-bootstrap"
+import TypeItem from './TypeItem';
 
 const TypeBar = observer(() => {
     const { product } = useContext(Context)
@@ -13,18 +13,30 @@ const TypeBar = observer(() => {
         return 1 * String(a.id).localeCompare(String(b.id))
     })
     return (
-        <ListGroup>
+        <div>
             {types.map(type => 
-                <ListGroup.Item
-                style={{cursor: 'pointer'}} 
-                active={type.id === product.selectedType.id}
+                <TypeItem 
+                text={type.name} 
                 onClick={() => product.setSelectedType(type)}
-                    key={type.id}
-                >
-                    {type.name}
-                </ListGroup.Item>
-                )}
-        </ListGroup>
+                active={type.id === product.selectedType.id}
+                key={type.id}
+                />
+            )}
+        </div>
+
+
+        // <ListGroup>
+        //     {types.map(type => 
+        //         <ListGroup.Item
+        //         style={{cursor: 'pointer'}} 
+        //         active={type.id === product.selectedType.id}
+        //         onClick={() => product.setSelectedType(type)}
+        //             key={type.id}
+        //         >
+        //             {type.name}
+        //         </ListGroup.Item>
+        //         )}
+        // </ListGroup>
     )
 })
 
