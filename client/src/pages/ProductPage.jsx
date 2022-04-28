@@ -3,6 +3,7 @@ import { Container, Col, Image, Row, Card, Button } from "react-bootstrap"
 import bigStar from "../assets/bigStar.png"
 import { useParams } from "react-router-dom"
 import { fetchOneProduct } from '../http/productAPI'
+import Background from '../components/styled/Background'
 
 const ProductPage = () => {
 
@@ -13,7 +14,8 @@ const ProductPage = () => {
     }, [id])
     
     return (
-        <Container className="mt-3">
+        <Background>
+        <Container>
             <Row>
                 <Col md={4}>
                     <Image width={300} height={300} src={process.env.REACT_APP_API_URL + product.img}></Image>
@@ -48,6 +50,7 @@ const ProductPage = () => {
                 )}
             </Row>
         </Container>
+        </Background>
     )
 }
 export default ProductPage

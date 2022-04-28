@@ -22,7 +22,7 @@ const NavBar = observer(() => {
 
     return (
         <Nav link={link}>
-            <Logo onClick={() => navigate(SHOP_ROUTE)}>
+            <Logo link={link} onClick={() => navigate(SHOP_ROUTE)}>
                 Food<span>Shop</span>
             </Logo>
             <Options onClick={() => setIsOpen(!isOpen)}>

@@ -5,9 +5,9 @@ const Nav = styled.div`
     padding: 0 2rem;
     justify-content: space-between;
     align-items: center;
+    background: ${({link}) => (link.indexOf(ADMIN_ROUTE) !== -1 ? '#0d6efd' : '#3a3055')};
+    display: ${({link}) => (link.indexOf(REGISTRATION_ROUTE) !== -1 || link.indexOf(LOGIN_ROUTE) !== -1 ? 'none' : 'flex')};
     flex-wrap: wrap;
-    background: ${({link}) => (link.indexOf(ADMIN_ROUTE) !== -1 ? '#3a3055' : 'white')};
-    display: ${({link}) => (link.indexOf(REGISTRATION_ROUTE) !== -1 || link.indexOf(LOGIN_ROUTE) !== -1 ? 'none' : 'flex')}
 `
 
 const Options = styled.div`
@@ -33,11 +33,11 @@ const MenuLink = styled.a`
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    color: #67bc98;
+    color: white;
     transition: all 0.3s ease-in;
 
     &:hover {
-        color: #7b7fda
+        color: #67bc98
     }
 `
 
@@ -58,7 +58,7 @@ const Menu = styled.div`
 
 const Logo = styled.div`
     padding: 1rem 0;
-    color: #7b7fda;
+    color: ${({link}) => (link.indexOf(ADMIN_ROUTE) !== -1 ? 'white' : '#7b7fda')};
     text-decoration: none;
     font-weight: 800;
     font-size: 1.7rem;
