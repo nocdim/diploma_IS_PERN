@@ -24,9 +24,9 @@ exports.registrationAdmin = [
     check('name', 'Имя администратора должно состоять из 5+ символов')
         .exists()
         .isLength({ min: 5 }),
-    check('password', 'Пароль должен состоять из 8+ символов')
+    check('password', 'Пароль должен состоять из 5+ символов')
         .exists()
-        .isLength({ min: 8 }),
+        .isLength({ min: 5 }),
     check('confirmPass', 'Пароли не совпадают')
         .custom((value, { req }) => (value === req.body.password))
 ]
