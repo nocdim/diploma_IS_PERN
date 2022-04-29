@@ -13,12 +13,12 @@ const Shop = observer(() => {
     useFetchInfo()
 
     return (
-        <Container style={{maxWidth: '87%'}}>
+        <Container style={{ maxWidth: '87%' }}>
             <Row className="pt-3">
                 <Col md={2}>
                     <TypeBar />
                 </Col>
-                <Col md={8}>
+                <Col md={8} >
                     <ProductList />
                     <Pages />
                 </Col>
