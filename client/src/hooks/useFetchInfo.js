@@ -11,7 +11,7 @@ const useFetchInfo = () => {
         if (window.location.href.substr(21) === '/') {
             fetchTypes().then(data => product.setTypes(data))
             fetchBrands().then(data => product.setBrands(data))
-            fetchProducts(product.selectedType.id, product.selectedBrand.id, product.page, 4).then(data => {
+            fetchProducts(product.selectedType.id, product.selectedBrand.id, product.page, 8).then(data => {
                 product.setProducts(data.rows)
                 product.setTotalCount(data.count)
             })
