@@ -12,11 +12,11 @@ const AdminInfo = observer(() => {
 
     const removeAdmin = async (name) => {
         try {
-            await deleteAdmin({ name: name }).then(
-                alert(`Администратор '${name}' был успешно удален`)
-            ).finally(window.location.reload())
+            await deleteAdmin({ name: name })
+            alert(`Администратор '${name}' был успешно удален`)
+            window.location.reload()
         } catch (e) {
-            alert(e)
+            alert(e.response.data.message)
         }
     }
 

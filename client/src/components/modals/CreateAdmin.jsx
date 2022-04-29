@@ -10,7 +10,7 @@ const CreateAdmin = ({ show, onHide }) => {
     const addAdmin = async () => {
         let role
         try {
-            const data = await registrationAdmin(name, password, confirmPass, role = 'ADMIN')
+            await registrationAdmin(name, password, confirmPass, role = 'ADMIN')
             window.location.reload()
         }
         catch (e) {

@@ -61,7 +61,7 @@ class UserController {
         const candidate = await User.findOne({where: {email: name}})
 
         if (candidate) {
-            return next(ApiError.badRequest('Администратор с таким email уже существует'))
+            return next(ApiError.badRequest('Администратор с таким логином уже существует'))
         }
 
         const hashPassword = await bcrypt.hash(password, 5)
@@ -77,7 +77,7 @@ class UserController {
                 role: 'ADMIN'
             }})
             if (admins.count === 1) {
-                return next(ApiError.badRequest('Невозможно удалить последнюю учетную запись администратора!'))
+                return next(ApiError.forbidden('Невозможно удалить последнюю учетную запись администратора!'))
             }
             let name = req.params.name.slice(1)
             await User.destroy({
