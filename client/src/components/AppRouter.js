@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import {Routes, Route} from 'react-router-dom'
-import { authRoutes, publicRoutes } from '../routes'
+import { authAdminRoutes, authUserRoutes, publicRoutes } from '../routes'
 import { Context } from '../index'
 
 const AppRouter = () => {
@@ -8,7 +8,10 @@ const AppRouter = () => {
 
     return (
         <Routes>
-            {user.role === 'ADMIN' && authRoutes.map(({path, element}) => 
+            {user.role === 'ADMIN' && authAdminRoutes.map(({path, element}) => 
+                <Route key={path} exact path={path} element={element}/>
+            )}
+            {user.role === 'USER' && authUserRoutes.map(({path, element}) => 
                 <Route key={path} exact path={path} element={element}/>
             )}
             {publicRoutes.map(({path, element}) => 

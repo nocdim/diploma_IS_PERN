@@ -6,10 +6,19 @@ import ProductItem from "./ProductItem"
 
 const ProductList = observer(() => {
     const { product } = useContext(Context)
+
+    let products = []
+    product.products.forEach(product => {
+        products.push(product)
+    })
+    products.sort((a, b) => {
+        return 1 * String(a.id).localeCompare(String(b.id))
+    })
+
     return (
-        <div style={{display: 'flex', justifyContent: 'center'}}>
+        <div style={{display: 'flex', justifyContent: 'start'}}>
             <Row style={{ marginLeft: '27px', display: 'inline-flex' }}>
-                {product.products.map(product =>
+                {products.map(product =>
                     <ProductItem key={product.id} product={product} />
                 )}
             </Row>

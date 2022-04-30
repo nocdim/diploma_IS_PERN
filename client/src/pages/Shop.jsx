@@ -18,7 +18,7 @@ const Shop = observer(() => {
                 <Col md={2}>
                     <TypeBar />
                 </Col>
-                <Col md={8} >
+                <Col md={8}>
                     <ProductList />
                     <Pages />
                 </Col>

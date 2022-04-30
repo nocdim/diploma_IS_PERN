@@ -12,7 +12,7 @@ const params = {
     subject: '/:subject'
 }
 
-export const authRoutes = [
+export const authAdminRoutes = [
     {
         path: ADMIN_ROUTE,
         element: <Admin />
@@ -21,6 +21,10 @@ export const authRoutes = [
         path: ADMIN_EDIT_ROUTE + params.subject + params.id,
         element: <AdminEditPage />
     },
+    
+]
+
+export const authUserRoutes = [
     {
         path: BASKET_ROUTE,
         element: <Basket />
