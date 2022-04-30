@@ -11,17 +11,11 @@ const ProductPage = () => {
 
     const [ratingVisible, setRatingVisible] = useState(false)
     const [product, setProduct] = useState({ info: [] })
-    const [userRole, setUserRole] = useState('')
     const { id } = useParams()
     useEffect(() => {
         fetchOneProduct(id).then(data => setProduct(data))
 
     }, [id])
-    useEffect(() => {
-        fetchUser().then((data) => {
-            setUserRole(data.role)
-        })
-    }, [])
 
     return (
         <Container>
@@ -57,7 +51,7 @@ const ProductPage = () => {
                 </Col>
             </Row>
             <hr />
-            {userRole === 'USER' ?
+            {localStorage.getItem('userRole') === 'USER' ?
                 <BottomDiv>
                     <Button>В корзину!</Button>
                 </BottomDiv>
