@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../index"
 import { observer } from "mobx-react-lite"
-import { Nav, Options, Menu, MenuLink, Logo, Name } from './styled/NavBar'
+import { Nav, Options, Menu, MenuLink, Logo } from './styled/NavBar'
 import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
 import { fetchUser } from '../http/userAPI';
 
