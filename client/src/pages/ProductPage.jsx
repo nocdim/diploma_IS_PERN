@@ -5,15 +5,23 @@ import { fetchOneProduct } from '../http/productAPI'
 import star from "../assets/star.png";
 import { BottomDiv, Button, ImgDiv, Rating, TopDiv } from '../components/styled/ProductPage'
 import GiveRating from "../components/modals/GiveRating"
+import { fetchUser } from '../http/userAPI';
 
 const ProductPage = () => {
 
     const [ratingVisible, setRatingVisible] = useState(false)
     const [product, setProduct] = useState({ info: [] })
+    const [userRole, setUserRole] = useState('')
     const { id } = useParams()
     useEffect(() => {
         fetchOneProduct(id).then(data => setProduct(data))
+
     }, [id])
+    useEffect(() => {
+        fetchUser().then((data) => {
+            setUserRole(data.role)
+        })
+    }, [])
 
     return (
         <Container>
@@ -49,9 +57,13 @@ const ProductPage = () => {
                 </Col>
             </Row>
             <hr />
-            <BottomDiv>
-                <Button>В корзину!</Button>
-            </BottomDiv>
+            {userRole === 'USER' ?
+                <BottomDiv>
+                    <Button>В корзину!</Button>
+                </BottomDiv>
+                :
+                <></>
+            }
             <GiveRating show={ratingVisible} onHide={() => setRatingVisible(false)} />
         </Container>
     )

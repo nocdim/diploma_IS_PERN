@@ -16,7 +16,6 @@ const NavBar = observer(() => {
     useEffect(() => {
         fetchUser().then((data) => {
             setName(data.email)
-            console.log(data)
         })
     }, [])
     

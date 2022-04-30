@@ -21,7 +21,7 @@ const CreateType = observer(({ show, onHide }) => {
             </Modal.Header>
             <Modal.Body style={{display: 'flex', justifyContent: 'center'}}>
                 {arr.map(i =>
-                    <Btn>{i}</Btn>
+                    <Btn key={i}>{i}</Btn>
                     )}
             </Modal.Body>
         </Modal>
