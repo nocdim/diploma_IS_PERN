@@ -75,5 +75,5 @@ export {
     Options,
     Menu,
     MenuLink,
-    Logo
+    Logo,
 }

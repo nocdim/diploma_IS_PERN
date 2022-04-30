@@ -14,9 +14,11 @@ const ProductPage = () => {
 
     return (
         <Container>
-            <Row>
+            <Row className="mt-4">
                 <Col md={4}>
-                    <Image width={300} height={300} src={process.env.REACT_APP_API_URL + product.img}></Image>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Image width={280} height={350} src={process.env.REACT_APP_API_URL + product.img}></Image>
+                    </div>
                 </Col>
                 <Col md={4}>
                     <Row className="d-flex flex-column align-items-center">

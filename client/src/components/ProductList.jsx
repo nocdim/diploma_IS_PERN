@@ -5,13 +5,15 @@ import { Context } from '../index';
 import ProductItem from "./ProductItem"
 
 const ProductList = observer(() => {
-    const {product} = useContext(Context)
+    const { product } = useContext(Context)
     return (
-        <Row style={{marginLeft: '30px'}}>
-            {product.products.map(product => 
-                <ProductItem key ={product.id} product={product} />
-            )}
-        </Row>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+            <Row style={{ marginLeft: '27px', display: 'inline-flex' }}>
+                {product.products.map(product =>
+                    <ProductItem key={product.id} product={product} />
+                )}
+            </Row>
+        </div>
     )
 })
 

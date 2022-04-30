@@ -3,13 +3,15 @@ const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 const { User, Basket } = require('../entities/associations')
+var LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 
 const generateJwt = (id, email, role) => {
-        return jwt.sign(
-        {id, email, role}, 
+    return jwt.sign(
+        { id, email, role },
         process.env.SECRET_KEY,
-        {expiresIn: '12h'}
-        )
+        { expiresIn: '12h' }
+    )
 }
 
 class UserController {
@@ -18,71 +20,73 @@ class UserController {
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
-        let errs = []
-        for (let objs of errors.array()) {
-            errs.push(' ' + objs.msg + ' ')
+            let errs = []
+            for (let objs of errors.array()) {
+                errs.push(' ' + objs.msg + ' ')
             }
             return next(ApiError.badRequest(errs))
         }
-        
+
         const { email, password, role } = req.body
 
         if (!email || !password) {
             return next(ApiError.badRequest('Неккоректный email или пароль'))
         }
 
-        const candidate = await User.findOne({where: {email}})
+        const candidate = await User.findOne({ where: { email } })
 
         if (candidate) {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
 
         const hashPassword = await bcrypt.hash(password, 5)
-        const user = await User.create({email, role, password: hashPassword})
-        const basket = await Basket.create({userId: user.id})
+        const user = await User.create({ email, role, password: hashPassword })
+        const basket = await Basket.create({ userId: user.id })
         const token = generateJwt(user.id, user.email, user.role)
 
-        return res.json({token})
+        return res.json({ token })
     }
     async registrationAdmin(req, res, next) {
 
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
-        let errs = []
-        for (let objs of errors.array()) {
-            errs.push(' ' + objs.msg + ' ')
+            let errs = []
+            for (let objs of errors.array()) {
+                errs.push(' ' + objs.msg + ' ')
             }
             return next(ApiError.badRequest(errs))
         }
-        
+
         const { name, password, role } = req.body
 
-        const candidate = await User.findOne({where: {email: name}})
+        const candidate = await User.findOne({ where: { email: name } })
 
         if (candidate) {
             return next(ApiError.badRequest('Администратор с таким логином уже существует'))
         }
 
         const hashPassword = await bcrypt.hash(password, 5)
-        const user = await User.create({email: name, role, password: hashPassword})
+        const user = await User.create({ email: name, role, password: hashPassword })
         const token = generateJwt(user.id, user.email, user.role)
 
-        return res.json({token})
+        return res.json({ token })
     }
 
     async deleteAdmin(req, res, next) {
         try {
-            let admins = await User.findAndCountAll({where: {
-                role: 'ADMIN'
-            }})
+            let admins = await User.findAndCountAll({
+                where: {
+                    role: 'ADMIN'
+                }
+            })
             if (admins.count === 1) {
                 return next(ApiError.forbidden('Невозможно удалить последнюю учетную запись администратора!'))
             }
             let name = req.params.name.slice(1)
             await User.destroy({
-                where: { 
-                    email: name 
+                where: {
+                    email: name
                 }
             })
             return res.json("Администратор " + name + " был удалён успешно")
@@ -93,20 +97,24 @@ class UserController {
 
     async login(req, res, next) {
 
+
+
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
-        let errs = []
-        for (let objs of errors.array()) {
-            errs.push(' ' + objs.msg + ' ')
+            let errs = []
+            for (let objs of errors.array()) {
+                errs.push(' ' + objs.msg + ' ')
             }
             return next(ApiError.badRequest(errs))
         }
 
-        const {email, password} = req.body
+        const { email, password } = req.body
 
-        const user = await User.findOne({where: {email}})
-        if(!user) {
+        localStorage.setItem('name', email)
+
+        const user = await User.findOne({ where: { email } })
+        if (!user) {
             return next(ApiError.badRequest('Пользователя с таким email не существует'))
         }
 
@@ -118,16 +126,22 @@ class UserController {
 
         const token = generateJwt(user.id, user.email, user.role)
 
-        return res.json({token})
+        return res.json({ token })
     }
 
     async check(req, res, next) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role)
-        return res.json({token})
+        return res.json({ token })
+    }
+
+    async fetchUser(req, res) {
+        let name = localStorage.getItem('name')
+        const user = await User.findOne({where: {email: name}})
+        return res.json(user)
     }
 
     async fetchAdmins(req, res) {
-        const admins = await User.findAll({where: { role: 'ADMIN' }})
+        const admins = await User.findAll({ where: { role: 'ADMIN' } })
         return res.json(admins)
     }
 }

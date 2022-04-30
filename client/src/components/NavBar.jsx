@@ -1,20 +1,30 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../index"
 import { observer } from "mobx-react-lite"
-import { Nav, Options, Menu, MenuLink, Logo } from './styled/NavBar'
+import { Nav, Options, Menu, MenuLink, Logo, Name } from './styled/NavBar'
 import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { fetchUser } from '../http/userAPI';
 
 const NavBar = observer(() => {
     const [isOpen, setIsOpen] = useState(false)
+    const [name, setName] = useState('')
     const { user } = useContext(Context)
     const navigate = useNavigate()
-    let link = window.location.href.substring(21)
-
+    let link = window.location.href.substring(21)        
+        
+    useEffect(() => {
+        fetchUser().then((data) => {
+            setName(data.email)
+            console.log(data)
+        })
+    }, [])
+    
     const logOut = () => {
         localStorage.setItem('userInfo', {})
         localStorage.setItem('userRole', '')
         localStorage.setItem('userIsAuth', false)
+        setName('')
         user.setUser({})
         user.setRole('')
         user.setIsAuth(false)
@@ -26,6 +36,7 @@ const NavBar = observer(() => {
             <Logo link={link} onClick={() => navigate(SHOP_ROUTE)}>
                 Food<span>Shop</span>
             </Logo>
+            
             <Options onClick={() => setIsOpen(!isOpen)}>
                 <span />
                 <span />
@@ -38,6 +49,7 @@ const NavBar = observer(() => {
                 </Menu>
                 : user.isAuth & user.role === 'USER' ?
                 <Menu isOpen={isOpen}>
+                    <MenuLink link={link} style={{pointerEvents: 'none'}} disabled>{name}</MenuLink>
                     <MenuLink link={link} onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
                     <MenuLink link={link} onClick={() => logOut()}>Выйти</MenuLink>
                 </Menu>
