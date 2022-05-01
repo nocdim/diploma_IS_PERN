@@ -53,7 +53,7 @@ const Product = sequelize.define('product', {
         allowNull: false
     },
     rating: {
-        type: DataTypes.INTEGER, 
+        type: DataTypes.FLOAT, 
         defaultValue: 0
     },
     img: {

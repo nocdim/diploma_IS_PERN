@@ -38,7 +38,7 @@ const Button = styled.button`
 `
 const Rating = styled.div`
 padding-top: 5px;
-cursor: pointer;
+cursor: ${({userRole}) => (userRole === 'USER' ? 'pointer' : 'default')};
     h3 {
         display: flex;
         align-items: top;

@@ -23,6 +23,7 @@ const NavBar = observer(() => {
         localStorage.setItem('userInfo', {})
         localStorage.setItem('userRole', '')
         localStorage.setItem('userIsAuth', false)
+        localStorage.setItem('userId', 0)
         setName('')
         user.setUser({})
         user.setRole('')

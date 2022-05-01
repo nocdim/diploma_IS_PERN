@@ -29,6 +29,7 @@ const Auth = observer(() => {
             localStorage.setItem('userInfo', user)
             localStorage.setItem('userRole', data.role)
             localStorage.setItem('userIsAuth', true)
+            localStorage.setItem('userId', data.id)
             user.setUser(user)
             user.setRole(data.role)
             user.setIsAuth(true)

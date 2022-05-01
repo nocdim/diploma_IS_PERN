@@ -74,3 +74,7 @@ export const fetchOneProduct = async (id) => {
 export const deleteProduct = async (product) => {
     await $authHost.delete(`api/product/:${product.name}`, product)
 }
+
+export const giveRating = async (product) => {
+    await $host.post('api/product/rate', product)
+}

@@ -1,6 +1,6 @@
 const uuid = require('uuid')
 const path = require('path');
-const { Product, ProductInfo, TypeBrand } = require('../entities/associations')
+const { Product, ProductInfo, TypeBrand, Rating } = require('../entities/associations')
 const ApiError = require('../error/ApiError');
 const { validationResult } = require('express-validator')
 
@@ -237,6 +237,39 @@ class ProductController {
                 where: { name: name }
             })
             return res.json("Продукт " + name + " был удалён успешно")
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async giveRating(req, res, next) {
+        try {
+            const { rating, userId, productId } = req.body
+
+            let rated = await Rating.findOne({where: {
+                userId: userId,
+                productId: productId,
+            }})
+            if (rated) {
+                return next(ApiError.badRequest('Вы уже ставили оценку этому продукту!'))
+            }
+            await Rating.create({
+                rate: rating, 
+                userId: userId, 
+                productId: productId
+            })
+
+            let productRatings = await Rating.findAndCountAll({where: {
+                productId: productId,
+            }})
+            let sum = 0
+            for (let productRating of productRatings.rows) {
+                sum += productRating.rate
+            }
+            const giveRating = await Product.update({ rating: sum/productRatings.count }, {
+                where: { id: productId }
+            })
+            return res.json(giveRating)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

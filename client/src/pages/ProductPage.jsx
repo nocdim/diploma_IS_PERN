@@ -24,9 +24,15 @@ const ProductPage = () => {
                     <h2>
                         {product.name}
                     </h2>
-                    <Rating onClick={() => setRatingVisible(true)}>
-                        <h3>Рейтинг {product.rating}<img src={star} alt="" /></h3>
-                    </Rating>
+                    {localStorage.getItem('userRole') === 'USER' ?
+                        <Rating userRole={localStorage.getItem('userRole')} onClick={() => setRatingVisible(true)}>
+                            <h3>Рейтинг {product.rating}<img src={star} alt="" /></h3>
+                        </Rating>
+                        :
+                        <Rating userRole={localStorage.getItem('userRole')}>
+                            <h3>Рейтинг {product.rating}<img src={star} alt="" /></h3>
+                        </Rating>
+                    }
                 </TopDiv>
                 <hr />
             </Row>
