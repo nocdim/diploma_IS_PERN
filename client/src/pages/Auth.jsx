@@ -13,6 +13,7 @@ const Auth = observer(() => {
     const location = useLocation()
     const navigate = useNavigate()
     const isLogin = location.pathname === LOGIN_ROUTE
+    const isRegistration = location.pathname === REGISTRATION_ROUTE
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
@@ -23,7 +24,8 @@ const Auth = observer(() => {
             let data
             if (isLogin) {
                 data = await login(email, password)
-            } else {
+            } 
+            if (isRegistration) {
                 data = await registration(email, password, confirmPass, role = 'USER')
             }
             localStorage.setItem('userInfo', user)

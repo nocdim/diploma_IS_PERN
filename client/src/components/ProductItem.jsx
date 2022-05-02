@@ -14,7 +14,7 @@ const ProductItem = ({ product }) => {
                 <Rating>
                     <div>Рейтинг</div>
                     <div className="rating">
-                        <div>{product.rating}</div>
+                        <div>{product.rating.toFixed(1)}</div>
                         <img src={star} alt="" />
                     </div>
                 </Rating>

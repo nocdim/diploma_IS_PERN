@@ -29,6 +29,8 @@ class UserController {
 
         const { email, password, role } = req.body
 
+        localStorage.setItem('name', email)
+
         if (!email || !password) {
             return next(ApiError.badRequest('Неккоректный email или пароль'))
         }

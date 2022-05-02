@@ -35,6 +35,10 @@ const BasketProduct = sequelize.define('basket_product', {
         primaryKey: true, 
         autoIncrement: true
     },
+    quantity: {
+        type: DataTypes.INTEGER,
+        aloowNull: false
+    }
 })
 
 const Product = sequelize.define('product', {

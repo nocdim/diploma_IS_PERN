@@ -5,17 +5,23 @@ import { fetchOneProduct } from '../http/productAPI'
 import star from "../assets/star.png";
 import { BottomDiv, Button, ImgDiv, Rating, TopDiv } from '../components/styled/ProductPage'
 import GiveRating from "../components/modals/GiveRating"
-import { fetchUser } from '../http/userAPI';
+import AdminLoader from '../components/AdminLoader';
 
 const ProductPage = () => {
 
+    const [loading, setLoading] = useState(true)
     const [ratingVisible, setRatingVisible] = useState(false)
     const [product, setProduct] = useState({ info: [] })
     const { id } = useParams()
     useEffect(() => {
-        fetchOneProduct(id).then(data => setProduct(data))
-
+        fetchOneProduct(id).then(data => setProduct(data)).finally(() => setLoading(false))
     }, [id])
+
+    if (loading) {
+        return (
+            <AdminLoader />
+        )
+    }
 
     return (
         <Container>
@@ -26,11 +32,11 @@ const ProductPage = () => {
                     </h2>
                     {localStorage.getItem('userRole') === 'USER' ?
                         <Rating userRole={localStorage.getItem('userRole')} onClick={() => setRatingVisible(true)}>
-                            <h3>Рейтинг {product.rating}<img src={star} alt="" /></h3>
+                            <h3>Рейтинг {product.rating.toFixed(1)}<img src={star} alt="" /></h3>
                         </Rating>
                         :
                         <Rating userRole={localStorage.getItem('userRole')}>
-                            <h3>Рейтинг {product.rating}<img src={star} alt="" /></h3>
+                            <h3>Рейтинг {product.rating.toFixed(1)}<img src={star} alt="" /></h3>
                         </Rating>
                     }
                 </TopDiv>
