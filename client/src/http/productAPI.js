@@ -78,3 +78,7 @@ export const deleteProduct = async (product) => {
 export const giveRating = async (product) => {
     await $host.post('api/product/rate', product)
 }
+
+export const addToBasket = async (product) => {
+    await $host.post('api/product/basket', product)
+}

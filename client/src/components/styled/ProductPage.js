@@ -16,6 +16,11 @@ const ImgDiv = styled.div`
 const BottomDiv = styled.div`
     display: flex;
     justify-content: end;
+
+    div {
+        margin: 1rem 2rem 0rem 0rem;
+        font-size: 24px;   
+    }
 `
 const Button = styled.button`
     max-width: 350px;
@@ -38,7 +43,7 @@ const Button = styled.button`
 `
 const Rating = styled.div`
 padding-top: 5px;
-cursor: ${({userRole}) => (userRole === 'USER' ? 'pointer' : 'default')};
+cursor: ${({ userRole }) => (userRole === 'USER' ? 'pointer' : 'default')};
     h3 {
         display: flex;
         align-items: top;
@@ -49,10 +54,36 @@ cursor: ${({userRole}) => (userRole === 'USER' ? 'pointer' : 'default')};
     }
 `
 
+const BtnContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 140px;
+    height: 40px;
+    border-radius: 8px;
+    margin: 1rem 3rem;
+    
+    span {
+        font-size: 24px;
+    }
+
+    button {
+        width: 40px;
+        height: 40px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        background-color: #3a3055;
+        color: white;
+        cursor: pointer;
+        font-size: 18px;
+    }
+`
+
 export {
     TopDiv,
     ImgDiv,
     BottomDiv,
     Button,
     Rating,
+    BtnContainer,
 }

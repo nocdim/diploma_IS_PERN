@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Col, Row } from "react-bootstrap"
 import { useParams } from "react-router-dom"
-import { fetchOneProduct } from '../http/productAPI'
+import { addToBasket, fetchOneProduct } from '../http/productAPI'
 import star from "../assets/star.png";
-import { BottomDiv, Button, ImgDiv, Rating, TopDiv } from '../components/styled/ProductPage'
+import { BottomDiv, BtnContainer, Button, ImgDiv, Rating, TopDiv } from '../components/styled/ProductPage'
 import GiveRating from "../components/modals/GiveRating"
 import AdminLoader from '../components/AdminLoader';
 
 const ProductPage = () => {
-
     const [loading, setLoading] = useState(true)
+    const [quantity, setQuantity] = useState(1)
     const [ratingVisible, setRatingVisible] = useState(false)
     const [product, setProduct] = useState({ info: [] })
     const { id } = useParams()
     useEffect(() => {
         fetchOneProduct(id).then(data => setProduct(data)).finally(() => setLoading(false))
     }, [id])
+
+    const toBasket = async () => {
+        try {
+            const formData = new FormData()
+            formData.append('productId', product.id)
+            formData.append('userId', localStorage.getItem('userId'))
+            formData.append('quantity', quantity)
+            await addToBasket(formData)
+            window.location.reload()
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+    }
 
     if (loading) {
         return (
@@ -65,7 +78,13 @@ const ProductPage = () => {
             <hr />
             {localStorage.getItem('userRole') === 'USER' ?
                 <BottomDiv>
-                    <Button>В корзину!</Button>
+                    <div>Количество: </div>
+                    <BtnContainer>
+                        <button onClick={() => setQuantity(Math.max(quantity - 1, 1))}>-</button>
+                        <span>{quantity}</span>
+                        <button onClick={() => setQuantity(quantity + 1)}>+</button>
+                    </BtnContainer>
+                    <Button onClick={() => toBasket()}>В корзину!</Button>
                 </BottomDiv>
                 :
                 <></>
