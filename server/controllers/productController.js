@@ -282,7 +282,6 @@ class ProductController {
     async addToBasket(req, res, next) {
         try {
             const { productId, userId, quantity } = req.body
-
             const basket = await Basket.findOne({ where: { userId: userId } })
             const exists = await BasketProduct.findOne({
                 where: {
@@ -291,25 +290,110 @@ class ProductController {
                 }
             })
             if (exists) {
-                const plusQuantity = await BasketProduct.update({ quantity: Number(exists.dataValues.quantity) + Number(quantity) }, {
+                await BasketProduct.update({ quantity: Number(exists.dataValues.quantity) + Number(quantity) }, {
                     where: {
                         basketId: basket.dataValues.id,
                         productId: productId,
                     }
                 })
-                return res.json(plusQuantity)
+                const basketProducts = await BasketProduct.findOne({
+                    where:
+                    {
+                        productId: productId,
+                        basketId: basket.dataValues.id
+                    }
+                })
+                const product = await Product.findOne({ where: { id: productId } })
+                const finalizeBasket = await BasketProduct.update({
+                    price: Number(basketProducts.dataValues.quantity) * Number(product.dataValues.price)
+                }, {
+                    where: {
+                        productId: productId,
+                        basketId: basket.dataValues.id
+                    }
+                })
+                return res.json(finalizeBasket)
             }
-            const addToBasket = await BasketProduct.create({
+
+            await BasketProduct.create({
                 basketId: basket.dataValues.id,
                 productId: productId,
                 quantity: quantity,
             })
-            return res.json(addToBasket)
+            const basketProducts = await BasketProduct.findOne({
+                where:
+                {
+                    productId: productId,
+                    basketId: basket.dataValues.id
+                }
+            })
+            const product = await Product.findOne({ where: { id: productId } })
+            const finalizeBasket = await BasketProduct.update({
+                price: Number(basketProducts.dataValues.quantity) * Number(product.dataValues.price)
+            }, {
+                where: {
+                    productId: productId,
+                    basketId: basket.dataValues.id
+                }
+            })
+            return res.json(finalizeBasket)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
     }
+    async updateQuantity(req, res, next) {
+        try {
+            const { basketId, productId, quantity } = req.body
+            await BasketProduct.update({quantity: quantity}, {where: {
+                basketId: basketId,
+                productId: productId
+            }})
+            const product = await Product.findOne({ where: { id: productId } })
+            const finalizeBasket = await BasketProduct.update({
+                price: Number(quantity) * Number(product.dataValues.price)
+            }, {
+                where: {
+                    productId: productId,
+                    basketId: basketId,
+                }
+            })
+            return res.json(finalizeBasket)
+        } catch (e) {
 
+        }
+    }
+    async getBasketItems(req, res, next) {
+        try {
+            const { id } = req.params
+            const basket = await Basket.findOne({
+                where: {
+                    userId: id
+                }
+            })
+            const items = await BasketProduct.findAll({
+                where: {
+                    basketId: basket.dataValues.id
+                }
+            })
+            return res.json(items)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async deleteBasketItem(req, res, next) {
+        try {
+            const { basketId, productId } = req.params
+            let bsktId = basketId.slice(1)
+            let prdctId = productId.slice(1)
+            await BasketProduct.destroy({where: {
+                basketId: bsktId,
+                productId: prdctId,
+            }})
+            return res.json('Успешно удалено')
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
 }
 
 module.exports = new ProductController()

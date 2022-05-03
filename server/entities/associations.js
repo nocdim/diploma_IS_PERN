@@ -35,9 +35,12 @@ const BasketProduct = sequelize.define('basket_product', {
         primaryKey: true, 
         autoIncrement: true
     },
+    price: {
+        type: DataTypes.FLOAT, 
+    },
     quantity: {
         type: DataTypes.INTEGER,
-        aloowNull: false
+        allowNull: false
     }
 })
 
@@ -53,7 +56,7 @@ const Product = sequelize.define('product', {
         allowNull: false
     },
     price: {
-        type: DataTypes.INTEGER, 
+        type: DataTypes.FLOAT, 
         allowNull: false
     },
     rating: {
@@ -128,12 +131,31 @@ const TypeBrand = sequelize.define('type_brand', {
     },
 })
 
+const Order = sequelize.define('order', {
+    id: {
+        type: DataTypes.INTEGER, 
+        primaryKey: true, 
+        autoIncrement: true
+    },
+    products: {
+        type: DataTypes.STRING, 
+        allowNull: false,
+    },
+    payType: {
+        type: DataTypes.STRING, 
+        allowNull: false
+    }
+})
+
 // Описываем связи
 User.hasOne(Basket)
 Basket.belongsTo(User)
 
 User.hasMany(Rating)
 Rating.belongsTo(User)
+
+User.hasMany(Order)
+Order.belongsTo(User)
 
 Basket.hasMany(BasketProduct)
 BasketProduct.belongsTo(Basket)

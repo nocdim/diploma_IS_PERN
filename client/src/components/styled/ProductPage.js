@@ -76,6 +76,7 @@ const BtnContainer = styled.div`
         color: white;
         cursor: pointer;
         font-size: 18px;
+        font-weight: 500;
     }
 `
 

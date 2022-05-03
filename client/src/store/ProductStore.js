@@ -5,6 +5,7 @@ export default class ProductStore {
         this._types = []
         this._brands = []
         this._products = []
+        this._basketItems = []
         this._selectedType = {}
         this._selectedBrand = {}
         this._page = 1
@@ -22,7 +23,9 @@ export default class ProductStore {
     setProducts(products) {
         this._products = products
     }
-
+    setBasketItems(basketItems) {
+        this._basketItems = basketItems
+    }
     setSelectedType(type) {
         this.setPage(1)
         this._selectedType = type
@@ -46,6 +49,9 @@ export default class ProductStore {
     }
     get products() {
         return this._products
+    }
+    get basketItems() {
+        return this._basketItems
     }
     get selectedType() {
         return this._selectedType

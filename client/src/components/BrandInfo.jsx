@@ -28,7 +28,7 @@ const BrandInfo = observer(() => {
                 alert(`Производитель '${name}' был успешно удален`)
             ).finally(window.location.reload())
         } catch (e) {
-            alert(e)
+            alert(e.response.data.message)
         }
     }
 

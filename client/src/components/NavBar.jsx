@@ -11,7 +11,8 @@ const NavBar = observer(() => {
     const [name, setName] = useState('')
     const { user } = useContext(Context)
     const navigate = useNavigate()
-    let link = window.location.href.substring(21)        
+    let link = window.location.href.substring(21)
+    const userId = localStorage.getItem('userId')        
         
     useEffect(() => {
         fetchUser().then((data) => {
