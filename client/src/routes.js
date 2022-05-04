@@ -5,7 +5,9 @@ import Basket from './pages/Basket'
 import Shop from './pages/Shop'
 import Auth from './pages/Auth'
 import ProductPage from './pages/ProductPage'
-import { ADMIN_ROUTE, ADMIN_EDIT_ROUTE, BASKET_ROUTE, PRODUCT_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE, NON_EXISTENT_ROUTE } from './utils/consts'
+import Orders from './pages/Orders'
+import OrderComplete from './pages/OrderComplete'
+import { ADMIN_ROUTE, ADMIN_EDIT_ROUTE, BASKET_ROUTE, PRODUCT_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE, NON_EXISTENT_ROUTE, SUCCESS_ROUTE, ORDERS_ROUTE } from './utils/consts'
 
 const params = {
     id: '/:id',
@@ -28,6 +30,14 @@ export const authUserRoutes = [
     {
         path: BASKET_ROUTE,
         element: <Basket />
+    },
+    {
+        path: ORDERS_ROUTE,
+        element: <Orders />
+    },
+    {
+        path: SUCCESS_ROUTE,
+        element: <OrderComplete />
     }
 ]
 

@@ -88,6 +88,11 @@ export const fetchBasketItems = async (id) => {
     return data
 }
 
+export const fetchOrders = async (id) => {
+    const {data} = await $host.get('api/product/orders/' + id)
+    return data
+}
+
 export const updateQuantity = async (product) => {
     const {data} = await $host.put('api/product/basket', product)
     return data
@@ -96,4 +101,8 @@ export const updateQuantity = async (product) => {
 export const deleteBasketItem = async (product) => {
     const {data} = await $host.delete(`api/product/basket/:${product.basketId}/:${product.productId}`, product)
     return data
+}
+
+export const placeOrder = async (order) => {
+    await $host.post('api/product/order', order)
 }

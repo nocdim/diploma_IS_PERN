@@ -141,6 +141,9 @@ const Order = sequelize.define('order', {
         type: DataTypes.STRING, 
         allowNull: false,
     },
+    sum: {
+        type: DataTypes.FLOAT,
+    },
     payType: {
         type: DataTypes.STRING, 
         allowNull: false
@@ -191,6 +194,7 @@ module.exports = {
     Brand,
     Rating,
     TypeBrand,
-    ProductInfo
+    ProductInfo,
+    Order
 }
 

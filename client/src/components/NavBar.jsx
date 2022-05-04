@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from "../index"
 import { observer } from "mobx-react-lite"
 import { Nav, Options, Menu, MenuLink, Logo } from './styled/NavBar'
-import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, ORDERS_ROUTE, SHOP_ROUTE } from '../utils/consts';
 import { fetchUser } from '../http/userAPI';
 
 const NavBar = observer(() => {
@@ -51,6 +51,7 @@ const NavBar = observer(() => {
                 : user.isAuth & user.role === 'USER' ?
                 <Menu isOpen={isOpen}>
                     <MenuLink link={link} style={{pointerEvents: 'none'}} disabled>{name}</MenuLink>
+                    <MenuLink link={link} onClick={() => navigate(ORDERS_ROUTE)}>Ваши покупки</MenuLink>
                     <MenuLink link={link} onClick={() => navigate(BASKET_ROUTE)}>Корзина</MenuLink>
                     <MenuLink link={link} onClick={() => logOut()}>Выйти</MenuLink>
                 </Menu>

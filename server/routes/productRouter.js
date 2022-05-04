@@ -9,12 +9,12 @@ router.get('/:id', productController.getOne)
 router.get('/basket/:id', productController.getBasketItems)
 router.post('/rate', productController.giveRating)
 router.post('/basket', productController.addToBasket)
+router.get('/order/:id', productController.getOrders)
+router.post('/order', productController.placeOrder)
 router.put('/basket', productController.updateQuantity)
 router.delete('/basket/:basketId/:productId', productController.deleteBasketItem)
 router.post('/', checkRole('ADMIN'), validator.product, productController.create)
 router.put('/', checkRole('ADMIN'), validator.product, productController.update)
 router.delete('/:name', checkRole('ADMIN'), productController.delete)
-
-
 
 module.exports = router

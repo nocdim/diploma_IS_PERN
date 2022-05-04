@@ -1,20 +1,24 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
-import { Container, Row, Spinner, Table } from 'react-bootstrap'
+import { Container, Form, Row, Spinner, Table } from 'react-bootstrap'
 import AdminLoader from '../components/AdminLoader'
 import useFetchInfo from '../hooks/useFetchInfo'
-import { fetchBasketItems } from '../http/productAPI'
+import { fetchBasketItems, placeOrder } from '../http/productAPI'
 import { Context } from '../index'
 import * as Icon from 'react-bootstrap-icons';
 import { DeleteBtn, SumDiv, Header, Image, InvisibleDiv, Purchase, TableDiv, TableDivH, EndDiv, Empty } from '../components/styled/Basket'
 import ChangeBasketItems from '../components/modals/ChangeBasketItems'
 import useItemMenuStorage from '../hooks/useItemMenuStorage'
+import { useNavigate } from 'react-router-dom'
+import { SUCCESS_ROUTE } from '../utils/consts'
 
 const Basket = observer(() => {
     const { product } = useContext(Context)
     const [loading, setLoading] = useState(true)
     const [items, setItems] = useState([])
+    const [payType, setPayType] = useState('')
     const userId = localStorage.getItem('userId')
+    const navigate = useNavigate()
     const [showItemMenu, setShowItemMenu] = useItemMenuStorage('itemMenuStates', {})
     let sum = 0
 
@@ -27,11 +31,28 @@ const Basket = observer(() => {
         }).finally(() => setLoading(false))
     }, [userId])
 
-    console.log(items)
     let prodObj = {}
     for (let prod of product.products) {
         prodObj[prod.id] = [prod.img, prod.name, prod.price]
     }
+
+    const makeOrder = async () => {
+        try {
+            if (payType === 'Выберите способ оплаты...' || payType === '') {
+                alert('Выберите способ оплаты!')
+            } else {
+                const formData = new FormData()
+                formData.append('userId', userId)
+                formData.append('sum', sum)
+                formData.append('payType', payType)
+                await placeOrder(formData)
+                navigate(SUCCESS_ROUTE)
+            }
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+    }
+
     if (loading) {
         return (
             <AdminLoader />
@@ -41,11 +62,11 @@ const Basket = observer(() => {
     if (items.length === 0) {
         return (
             <Empty>
-                   <Spinner 
-                   style={{margin: '30px'}}
-                   animation="grow" /> Ваша корзина пуста! <Spinner 
-                   style={{margin: '30px'}}
-                   animation="grow" />
+                <Spinner
+                    style={{ margin: '30px' }}
+                    animation="grow" /> Ваша корзина пуста! <Spinner
+                    style={{ margin: '30px' }}
+                    animation="grow" />
             </Empty>
         )
     }
@@ -146,7 +167,18 @@ const Basket = observer(() => {
             </Row>
             <Row>
                 <EndDiv>
-                    <Purchase>Оформить заказ</Purchase>
+                    
+                        <Form.Select 
+                        onChange={(e) => setPayType(e.target.value)}
+                        style={{ height: '40px', margin: '1rem 1rem 0rem 0rem' }} 
+                        >
+                            <option>Выберите способ оплаты...</option>
+                            <option>Наличные</option>
+                            <option>Карта</option>
+                            <option>Карта-онлайн</option>
+                        </Form.Select>
+                    
+                    <Purchase onClick={() => makeOrder()}>Оформить заказ</Purchase>
                 </EndDiv>
             </Row>
 

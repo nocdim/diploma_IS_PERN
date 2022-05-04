@@ -1,6 +1,6 @@
 const uuid = require('uuid')
 const path = require('path');
-const { Product, ProductInfo, TypeBrand, Rating, Basket, BasketProduct } = require('../entities/associations')
+const { Product, ProductInfo, TypeBrand, Rating, Basket, BasketProduct, Order } = require('../entities/associations')
 const ApiError = require('../error/ApiError');
 const { validationResult } = require('express-validator')
 
@@ -390,6 +390,42 @@ class ProductController {
                 productId: prdctId,
             }})
             return res.json('Успешно удалено')
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async getOrders(req, res, next) {
+        try {
+            const { id } = req.params
+            const orders = await Order.findAll({where: {userId: id}})
+            return res.json(orders)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async placeOrder(req, res, next) {
+        try {
+            const { userId, sum, payType } = req.body
+            const basket = await Basket.findOne({where: {userId: userId}})
+            const basketId = basket.dataValues.id
+            const basketProducts = await BasketProduct.findAll({where: {basketId: basketId}})
+            const productIds = []
+            for (let obj of basketProducts) {
+                productIds.push(obj.dataValues.productId)
+            }
+            const productsArr = []
+            for (let productId of productIds) {
+                const prdct = await Product.findOne({where: {id: productId}})
+                const basketProduct = await BasketProduct.findOne({where: {
+                    basketId: basketId,
+                    productId: productId
+                }})
+                productsArr.push((prdct.dataValues.name).concat(' ' + basketProduct.dataValues.quantity + 'шт.'))
+            }
+            let products = productsArr.join(', ')
+            await BasketProduct.destroy({where: {basketId: basketId}})
+            const order = await Order.create({payType, products, userId, sum})
+            return res.json(order)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

@@ -37,6 +37,7 @@ const ChangeBasketItems = ({ show, onHide, item }) => {
             alert(e.response.data.message)
         }
     }
+    
 
     return (
         <Modal
