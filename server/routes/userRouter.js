@@ -9,6 +9,7 @@ router.post('/registrationAdmin', validator.registrationAdmin, userController.re
 router.post('/login', validator.login, userController.login)
 router.get('/auth', authMiddleware, userController.check)
 router.get('/admins', authMiddleware, userController.fetchAdmins)
+router.get('/users', authMiddleware, userController.fetchUsers)
 router.get('/', userController.fetchUser)
 router.delete('/admin/:name', userController.deleteAdmin)
 

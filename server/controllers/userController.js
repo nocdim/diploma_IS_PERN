@@ -146,6 +146,10 @@ class UserController {
         const admins = await User.findAll({ where: { role: 'ADMIN' } })
         return res.json(admins)
     }
+    async fetchUsers(req, res) {
+        const users = await User.findAll({where: { role: 'USER' }})
+        return res.json(users)
+    }
 }
 
 module.exports = new UserController()

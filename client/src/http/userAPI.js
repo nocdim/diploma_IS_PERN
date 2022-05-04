@@ -36,6 +36,11 @@ export const fetchAdmins = async () => {
     return data
 }
 
+export const fetchUsers = async () => {
+    const {data} = await $authHost.get('api/user/users')
+    return data
+}
+
 export const deleteAdmin = async (admin) => {
     await $authHost.delete(`api/user/admin/:${admin.name}`, admin)
 }

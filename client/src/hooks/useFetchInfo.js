@@ -1,8 +1,8 @@
 import { useEffect, useContext } from 'react'
 import { Context } from '../index'
-import { fetchBrands, fetchProducts, fetchTypes } from "../http/productAPI"
+import { fetchAllOrders, fetchBrands, fetchProducts, fetchTypes } from "../http/productAPI"
 import { ADMIN_EDIT_ROUTE, ADMIN_ROUTE, BASKET_ROUTE } from '../utils/consts'
-import { fetchAdmins } from '../http/userAPI'
+import { fetchAdmins, fetchUsers } from '../http/userAPI'
 
 const useFetchInfo = () => {
     const { user, product } = useContext(Context)
@@ -22,7 +22,9 @@ const useFetchInfo = () => {
                 product.setProducts(data.rows)
                 product.setTotalCount(data.count)
             })
+            fetchAllOrders().then(data => product.setAllOrders(data))
             fetchAdmins().then(data => user.setAdmins(data))
+            fetchUsers().then(data => user.setUsers(data))
         } else if (window.location.href.includes(ADMIN_EDIT_ROUTE)) {
             fetchTypes().then(data => product.setTypes(data))
             fetchBrands().then(data => product.setBrands(data))

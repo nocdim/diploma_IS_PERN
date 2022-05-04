@@ -93,6 +93,11 @@ export const fetchOrders = async (id) => {
     return data
 }
 
+export const fetchAllOrders = async () => {
+    const {data} = await $authHost.get('api/product/order/orders')
+    return data
+}
+
 export const updateQuantity = async (product) => {
     const {data} = await $host.put('api/product/basket', product)
     return data

@@ -344,10 +344,12 @@ class ProductController {
     async updateQuantity(req, res, next) {
         try {
             const { basketId, productId, quantity } = req.body
-            await BasketProduct.update({quantity: quantity}, {where: {
-                basketId: basketId,
-                productId: productId
-            }})
+            await BasketProduct.update({ quantity: quantity }, {
+                where: {
+                    basketId: basketId,
+                    productId: productId
+                }
+            })
             const product = await Product.findOne({ where: { id: productId } })
             const finalizeBasket = await BasketProduct.update({
                 price: Number(quantity) * Number(product.dataValues.price)
@@ -385,10 +387,12 @@ class ProductController {
             const { basketId, productId } = req.params
             let bsktId = basketId.slice(1)
             let prdctId = productId.slice(1)
-            await BasketProduct.destroy({where: {
-                basketId: bsktId,
-                productId: prdctId,
-            }})
+            await BasketProduct.destroy({
+                where: {
+                    basketId: bsktId,
+                    productId: prdctId,
+                }
+            })
             return res.json('Успешно удалено')
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -397,7 +401,15 @@ class ProductController {
     async getOrders(req, res, next) {
         try {
             const { id } = req.params
-            const orders = await Order.findAll({where: {userId: id}})
+            const orders = await Order.findAll({ where: { userId: id } })
+            return res.json(orders)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async getAllOrders(req, res, next) {
+        try {
+            const orders = await Order.findAll()
             return res.json(orders)
         } catch (e) {
             next(ApiError.badRequest(e.message))
@@ -406,25 +418,27 @@ class ProductController {
     async placeOrder(req, res, next) {
         try {
             const { userId, sum, payType } = req.body
-            const basket = await Basket.findOne({where: {userId: userId}})
+            const basket = await Basket.findOne({ where: { userId: userId } })
             const basketId = basket.dataValues.id
-            const basketProducts = await BasketProduct.findAll({where: {basketId: basketId}})
+            const basketProducts = await BasketProduct.findAll({ where: { basketId: basketId } })
             const productIds = []
             for (let obj of basketProducts) {
                 productIds.push(obj.dataValues.productId)
             }
             const productsArr = []
             for (let productId of productIds) {
-                const prdct = await Product.findOne({where: {id: productId}})
-                const basketProduct = await BasketProduct.findOne({where: {
-                    basketId: basketId,
-                    productId: productId
-                }})
+                const prdct = await Product.findOne({ where: { id: productId } })
+                const basketProduct = await BasketProduct.findOne({
+                    where: {
+                        basketId: basketId,
+                        productId: productId
+                    }
+                })
                 productsArr.push((prdct.dataValues.name).concat(' ' + basketProduct.dataValues.quantity + 'шт.'))
             }
             let products = productsArr.join(', ')
-            await BasketProduct.destroy({where: {basketId: basketId}})
-            const order = await Order.create({payType, products, userId, sum})
+            await BasketProduct.destroy({ where: { basketId: basketId } })
+            const order = await Order.create({ payType, products, userId, sum })
             return res.json(order)
         } catch (e) {
             next(ApiError.badRequest(e.message))
