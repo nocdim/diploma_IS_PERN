@@ -111,3 +111,12 @@ export const deleteBasketItem = async (product) => {
 export const placeOrder = async (order) => {
     await $host.post('api/product/order', order)
 }
+
+export const fetchComments = async (id) => {
+    const { data } = await $host.get('api/product/comments/' + id)
+    return data
+}
+
+export const createComment = async (comment) => {
+    await $host.post('api/product/comment', comment)
+}

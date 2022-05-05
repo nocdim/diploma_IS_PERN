@@ -6,6 +6,7 @@ const Input = (props) => {
     return (
         <Container>
             <StyledInput 
+            link={props.link}
             placeholder={props.placeholder && props.placeholder} 
             type={props.type ? props.type : "text"} 
             onChange={e => props.onChange(e.target.value)}

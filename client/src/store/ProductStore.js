@@ -8,6 +8,7 @@ export default class ProductStore {
         this._basketItems = []
         this._orders = []
         this._allOrders = []
+        this._comments = []
         this._selectedType = {}
         this._selectedBrand = {}
         this._page = 1
@@ -33,6 +34,9 @@ export default class ProductStore {
     }
     setAllOrders(allOrders){
         this._allOrders = allOrders
+    }
+    setComments(comments){
+        this._comments = comments
     }
     setSelectedType(type) {
         this.setPage(1)
@@ -66,6 +70,9 @@ export default class ProductStore {
     }
     get allOrders() {
         return this._allOrders
+    }
+    get comments() {
+        return this._comments
     }
     get selectedType() {
         return this._selectedType

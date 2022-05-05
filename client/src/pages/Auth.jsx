@@ -12,6 +12,7 @@ const Auth = observer(() => {
     const { user } = useContext(Context)
     const location = useLocation()
     const navigate = useNavigate()
+    let link = window.location.href.substring(21)
     const isLogin = location.pathname === LOGIN_ROUTE
     const isRegistration = location.pathname === REGISTRATION_ROUTE
     const [email, setEmail] = useState('')
@@ -50,12 +51,14 @@ const Auth = observer(() => {
                     </Logo>
                     <h3>{isLogin ? 'Авторизация' : "Регистрация"}</h3>
                     <Input
+                        link={link}
                         type="email"
                         placeholder="Введите ваш email..."
                         value={email}
                         onChange={value => setEmail(value)}
                     />
                     <Input
+                        link={link}
                         type="password"
                         placeholder="Введите ваш пароль..."
                         value={password}

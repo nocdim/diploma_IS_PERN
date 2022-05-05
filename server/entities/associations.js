@@ -69,6 +69,18 @@ const Product = sequelize.define('product', {
     }
 })
 
+const Comment = sequelize.define('comment', {
+    id: {
+        type: DataTypes.INTEGER, 
+        primaryKey: true, 
+        autoIncrement: true
+    },
+    text: {
+        type: DataTypes.STRING, 
+        allowNull: false
+    }
+})
+
 const Type = sequelize.define('type', {
     id: {
         type: DataTypes.INTEGER, 
@@ -163,6 +175,12 @@ Order.belongsTo(User)
 Basket.hasMany(BasketProduct)
 BasketProduct.belongsTo(Basket)
 
+User.hasMany(Comment)
+Comment.belongsTo(User)
+
+Product.hasMany(Comment)
+Comment.belongsTo(Product)
+
 Type.hasMany(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 Product.belongsTo(Type, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
@@ -179,6 +197,7 @@ Product.hasMany(ProductInfo, {as: 'info', onDelete: "CASCADE", onUpdate: "CASCAD
 ProductInfo.belongsTo(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
 // Связь многие ко многим
+
 Type.belongsToMany(Brand, {through: 'type_brand', onDelete: "CASCADE", onUpdate: "CASCADE"})
 Brand.belongsToMany(Type, {through: 'type_brand', onDelete: "CASCADE", onUpdate: "CASCADE"})
 
@@ -195,6 +214,7 @@ module.exports = {
     Rating,
     TypeBrand,
     ProductInfo,
-    Order
+    Order,
+    Comment,
 }
 

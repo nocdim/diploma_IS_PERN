@@ -1,6 +1,6 @@
 const uuid = require('uuid')
 const path = require('path');
-const { Product, ProductInfo, TypeBrand, Rating, Basket, BasketProduct, Order } = require('../entities/associations')
+const { Product, ProductInfo, TypeBrand, Rating, Basket, BasketProduct, Order, Comment } = require('../entities/associations')
 const ApiError = require('../error/ApiError');
 const { validationResult } = require('express-validator')
 
@@ -443,6 +443,20 @@ class ProductController {
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
+    }
+    async createComment(req, res, next) {
+        try {
+            const { comment, userId, productId } = req.body
+            const comm = await Comment.create({text: comment, userId: userId, productId: productId})
+            return res.json(comm)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async getComments(req, res, next) {
+        const { id } = req.params
+        const comments = await Comment.findAll({where: {productId: id}})
+        return res.json(comments)
     }
 }
 

@@ -80,6 +80,23 @@ const BtnContainer = styled.div`
     }
 `
 
+const CommentHeader = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+`
+const CommentDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 892px;
+    padding: 2rem;
+    border: 1px dashed #00000065;
+    border-radius: 8px;
+    font-size: 20px;
+`
+
 export {
     TopDiv,
     ImgDiv,
@@ -87,4 +104,6 @@ export {
     Button,
     Rating,
     BtnContainer,
+    CommentDiv,
+    CommentHeader
 }
