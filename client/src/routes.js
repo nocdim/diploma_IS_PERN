@@ -7,7 +7,20 @@ import Auth from './pages/Auth'
 import ProductPage from './pages/ProductPage'
 import Orders from './pages/Orders'
 import OrderComplete from './pages/OrderComplete'
-import { ADMIN_ROUTE, ADMIN_EDIT_ROUTE, BASKET_ROUTE, PRODUCT_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE, NON_EXISTENT_ROUTE, SUCCESS_ROUTE, ORDERS_ROUTE } from './utils/consts'
+import Search from './pages/Search'
+import { 
+    ADMIN_ROUTE, 
+    ADMIN_EDIT_ROUTE, 
+    BASKET_ROUTE, 
+    PRODUCT_ROUTE, 
+    LOGIN_ROUTE, 
+    REGISTRATION_ROUTE, 
+    SHOP_ROUTE, 
+    NON_EXISTENT_ROUTE, 
+    SUCCESS_ROUTE, 
+    ORDERS_ROUTE, 
+    SEARCH_ROUTE 
+} from './utils/consts'
 
 const params = {
     id: '/:id',
@@ -23,7 +36,10 @@ export const authAdminRoutes = [
         path: ADMIN_EDIT_ROUTE + params.subject + params.id,
         element: <AdminEditPage />
     },
-    
+    {
+        path: SEARCH_ROUTE,
+        element: <Search />
+    }
 ]
 
 export const authUserRoutes = [
@@ -38,6 +54,10 @@ export const authUserRoutes = [
     {
         path: SUCCESS_ROUTE,
         element: <OrderComplete />
+    },
+    {
+        path: SEARCH_ROUTE,
+        element: <Search />
     }
 ]
 

@@ -51,7 +51,7 @@ const Product = sequelize.define('product', {
         autoIncrement: true
     },
     name: {
-        type: DataTypes.STRING, 
+        type: DataTypes.CITEXT,
         unique: true, 
         allowNull: false
     },

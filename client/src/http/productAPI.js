@@ -120,3 +120,8 @@ export const fetchComments = async (id) => {
 export const createComment = async (comment) => {
     await $host.post('api/product/comment', comment)
 }
+
+export const makeSearch = async (search) => {
+    const { data } = await $host.get('api/product/search/query/' + search)
+    return data
+}

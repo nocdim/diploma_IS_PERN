@@ -6,7 +6,6 @@ import star from "../assets/star.png";
 import { BottomDiv, BtnContainer, Button, CommentDiv, CommentHeader, ImgDiv, Rating, TopDiv } from '../components/styled/ProductPage'
 import GiveRating from "../components/modals/GiveRating"
 import AdminLoader from '../components/AdminLoader';
-import styled from 'styled-components';
 import Input from '../components/Input';
 import { Context } from '../index';
 import { fetchUsers } from '../http/userAPI';
@@ -30,7 +29,7 @@ const ProductPage = () => {
         fetchComments(id).then(data => product.setComments(data))
         fetchOneProduct(id).then(data => setInProduct(data)).finally(() => setLoading(false))
         fetchUsers().then(data => user.setUsers(data))
-    }, [id])
+    }, [id, product, user])
 
     const toBasket = async () => {
         try {

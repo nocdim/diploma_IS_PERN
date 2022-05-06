@@ -3,6 +3,8 @@ const path = require('path');
 const { Product, ProductInfo, TypeBrand, Rating, Basket, BasketProduct, Order, Comment } = require('../entities/associations')
 const ApiError = require('../error/ApiError');
 const { validationResult } = require('express-validator')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 class ProductController {
     async create(req, res, next) {
@@ -457,6 +459,15 @@ class ProductController {
         const { id } = req.params
         const comments = await Comment.findAll({where: {productId: id}})
         return res.json(comments)
+    }
+    async search (req, res, next) {
+        try {
+            let { param } = req.params
+            const find = await Product.findAll({where: {name: {[Op.like]: '%' + param + '%'}}})
+            return res.json(find)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
     }
 }
 

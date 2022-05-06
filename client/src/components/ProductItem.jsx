@@ -8,8 +8,9 @@ import { Card, Image, Rating } from './styled/ProductItem';
 const ProductItem = ({ product }) => {
     const navigate = useNavigate()
     return (
-        <Col onClick={() => navigate(PRODUCT_ROUTE + '/' + product.id)}>
-            <Card>
+            <Card 
+            style={{margin: '0 1rem 0 1rem'}}
+            onClick={() => navigate(PRODUCT_ROUTE + '/' + product.id)}>
                 <Image src={process.env.REACT_APP_API_URL + product.img} alt="" />
                 <Rating>
                     <div>Рейтинг</div>
@@ -20,7 +21,6 @@ const ProductItem = ({ product }) => {
                 </Rating>
                 <div className="name">{product.name}</div>
             </Card>
-        </Col>
     )
 }
 

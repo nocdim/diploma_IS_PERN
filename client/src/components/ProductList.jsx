@@ -16,13 +16,11 @@ const ProductList = observer(() => {
     })
 
     return (
-        <div style={{display: 'flex', justifyContent: 'start'}}>
-            <Row style={{ marginLeft: '27px', display: 'inline-flex' }}>
+            <Row>
                 {products.map(product =>
                     <ProductItem key={product.id} product={product} />
                 )}
             </Row>
-        </div>
     )
 })
 

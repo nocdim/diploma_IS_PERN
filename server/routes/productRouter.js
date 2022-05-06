@@ -19,5 +19,6 @@ router.delete('/basket/:basketId/:productId', productController.deleteBasketItem
 router.post('/', checkRole('ADMIN'), validator.product, productController.create)
 router.put('/', checkRole('ADMIN'), validator.product, productController.update)
 router.delete('/:name', checkRole('ADMIN'), productController.delete)
+router.get('/search/query/:param', productController.search)
 
 module.exports = router

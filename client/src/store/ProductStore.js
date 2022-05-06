@@ -5,6 +5,7 @@ export default class ProductStore {
         this._types = []
         this._brands = []
         this._products = []
+        this._searchedProducts = []
         this._basketItems = []
         this._orders = []
         this._allOrders = []
@@ -25,6 +26,9 @@ export default class ProductStore {
     }
     setProducts(products) {
         this._products = products
+    }
+    setSearchedProducts(searchedProducts) {
+        this._searchedProducts = searchedProducts
     }
     setBasketItems(basketItems) {
         this._basketItems = basketItems
@@ -61,6 +65,9 @@ export default class ProductStore {
     }
     get products() {
         return this._products
+    }
+    get searchedProducts() {
+        return this._searchedProducts
     }
     get basketItems() {
         return this._basketItems
