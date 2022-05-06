@@ -52,7 +52,7 @@ const Shop = observer(() => {
                     <TypeBar />
                 </Col>
                 <Col md={8}>
-                    <div style={{marginLeft: '25px'}}>
+                    <div style={{marginLeft: '27px'}}>
                         <ProductList />
                         <Pages />
                     </div>

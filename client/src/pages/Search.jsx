@@ -38,7 +38,7 @@ const Search = () => {
         <Header><h2>Результаты поиска:</h2></Header>
       </Row>
       <hr />
-        <Row style={{ marginLeft: '27px', display: 'inline-flex' }}>
+        <Row style={{marginLeft: '63px'}}>
         {product.searchedProducts.map(prdct =>
           <ProductItem key={prdct.id} product={prdct} />
         )}
