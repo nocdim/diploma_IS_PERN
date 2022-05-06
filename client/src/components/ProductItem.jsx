@@ -1,5 +1,4 @@
 import React from 'react';
-import { Col } from "react-bootstrap"
 import star from "../assets/star.png";
 import { useNavigate } from "react-router-dom"
 import { PRODUCT_ROUTE } from '../utils/consts';
@@ -9,7 +8,7 @@ const ProductItem = ({ product }) => {
     const navigate = useNavigate()
     return (
             <Card 
-            style={{margin: '0 1rem 0 1rem'}}
+            style={{margin: '1rem 1rem 1rem 1rem'}}
             onClick={() => navigate(PRODUCT_ROUTE + '/' + product.id)}>
                 <Image src={process.env.REACT_APP_API_URL + product.img} alt="" />
                 <Rating>

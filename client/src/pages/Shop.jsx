@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import TypeBar from '../components/TypeBar'
 import BrandBar from '../components/BrandBar'
@@ -9,7 +9,6 @@ import useFetchInfo from '../hooks/useFetchInfo'
 import * as Icon from 'react-bootstrap-icons';
 import { useState } from 'react'
 import { Search } from '../components/styled/Shop'
-import { makeSearch } from '../http/productAPI'
 import { Context } from '../index';
 import { useNavigate } from 'react-router-dom'
 import { SEARCH_ROUTE } from '../utils/consts'
