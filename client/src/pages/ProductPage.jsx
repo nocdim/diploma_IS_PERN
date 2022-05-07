@@ -20,7 +20,7 @@ const ProductPage = () => {
     let link = window.location.href.substring(21)
     const [inProduct, setInProduct] = useState({ info: [] })
     const { id } = useParams()
-    
+    fetchUsers().then(data => user.setUsers(data))
     let usersObj = {}
     for (let usr of user.users) {
         usersObj[usr.id] = usr.email
@@ -28,7 +28,6 @@ const ProductPage = () => {
     useEffect(() => {
         fetchComments(id).then(data => product.setComments(data))
         fetchOneProduct(id).then(data => setInProduct(data)).finally(() => setLoading(false))
-        fetchUsers().then(data => user.setUsers(data))
     }, [id, product, user])
 
     const toBasket = async () => {
