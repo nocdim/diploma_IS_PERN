@@ -30,6 +30,7 @@ const Rating = styled.div`
     .rating {
         display: flex;
         align-items: center;
+        width: 12px;
 
         img {
             width: 16px;
