@@ -8,6 +8,7 @@ const Nav = styled.div`
     background: ${({link}) => (link.indexOf(ADMIN_ROUTE) !== -1 ? '#0d6efd' : '#3a3055')};
     display: ${({link}) => (link.indexOf(REGISTRATION_ROUTE) !== -1 || link.indexOf(LOGIN_ROUTE) !== -1 ? 'none' : 'flex')};
     flex-wrap: wrap;
+    box-shadow: 0px 14px 9px -15px rgba(0, 0, 0, 0.90);
 `
 
 const Options = styled.div`
