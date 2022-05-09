@@ -6,7 +6,7 @@ const Card = styled.div`
     cursor: pointer;
 
     .name {
-        font-size: 16qpx;
+        font-size: 16px;
         color: #3a3055;
     }
 `
