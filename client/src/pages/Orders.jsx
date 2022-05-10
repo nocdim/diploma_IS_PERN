@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, Row, Spinner, Table } from 'react-bootstrap'
 import AdminLoader from '../components/AdminLoader'
 import { Empty, Header, InvisibleDiv, SumDiv } from '../components/styled/Basket'
-import { fetchOrders } from '../http/productAPI'
+import { deleteOrder, fetchOrders } from '../http/productAPI'
+import * as Icon from 'react-bootstrap-icons'
 import { Context } from '../index'
+import { RemoveOrderDiv } from '../components/styled/Orders'
 
 const Orders = () => {
     let i = 0
@@ -19,8 +21,14 @@ const Orders = () => {
         }).finally(() => setLoading(false))
     }, [userId])
 
-
-    console.log(product.orders)
+    const removeOrder = async (id) => {
+        try {
+            await deleteOrder({id : id}).then(alert('Заказ успешно отменён!'))
+            .finally(window.location.reload())
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+    }
     if (loading) {
         return (
             <AdminLoader />
@@ -55,6 +63,7 @@ const Orders = () => {
                                 <th>Оплата</th>
                                 <th>Дата покупки</th>
                                 <th>Сумма</th>
+                                <th>Опции</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,7 +75,7 @@ const Orders = () => {
                                     <th style={{ width: '5%' }}>
                                         {++i}
                                     </th>
-                                    <th style={{ width: '40%' }}>
+                                    <th style={{ width: '35%' }}>
                                         {order.products}
                                     </th>
                                     <th style={{ width: '10%' }}>
@@ -80,6 +89,19 @@ const Orders = () => {
                                         {sum += order.sum}
                                     </InvisibleDiv>
                                         {order.sum} ₽
+                                    </th>
+                                    <th style={{ width: '5%' }}>
+                                        <RemoveOrderDiv>
+                                            <button
+                                            onClick={() => {
+                                                if (window.confirm(`Вы действительно хотите отменить заказ?`)) {
+                                                    removeOrder(order.id)
+                                                }
+                                            }}
+                                            >
+                                            <Icon.BagX />
+                                            </button>
+                                        </RemoveOrderDiv>
                                     </th>
                                 </tr>
                             )}

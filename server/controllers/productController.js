@@ -469,6 +469,14 @@ class ProductController {
             next(ApiError.badRequest(e.message))
         }
     }
+    async deleteOrder (req, res, next) {
+        try {
+            const { id } = req.params
+            await Order.destroy({where: {id: id}})
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
 }
 
 module.exports = new ProductController()

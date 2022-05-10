@@ -112,6 +112,10 @@ export const placeOrder = async (order) => {
     await $host.post('api/product/order', order)
 }
 
+export const deleteOrder = async (order) => {
+    await $host.delete(`api/product/order/${order.id}`, order)
+}
+
 export const fetchComments = async (id) => {
     const { data } = await $host.get('api/product/comments/' + id)
     return data
