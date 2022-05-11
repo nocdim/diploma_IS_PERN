@@ -178,8 +178,8 @@ BasketProduct.belongsTo(Basket)
 User.hasMany(Comment)
 Comment.belongsTo(User)
 
-Product.hasMany(Comment)
-Comment.belongsTo(Product)
+Product.hasMany(Comment, { onDelete: "CASCADE", onUpdate: "CASCADE" })
+Comment.belongsTo(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 
 Type.hasMany(Product, { onDelete: "CASCADE", onUpdate: "CASCADE" })
 Product.belongsTo(Type, { onDelete: "CASCADE", onUpdate: "CASCADE" })
