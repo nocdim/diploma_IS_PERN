@@ -67,6 +67,7 @@ const Auth = observer(() => {
                     {!isLogin
                         ?
                         <Input
+                            link={link}
                             type="password"
                             placeholder="Подтвердите ваш пароль..."
                             value={confirmPass}
