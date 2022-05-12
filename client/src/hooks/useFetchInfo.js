@@ -18,7 +18,7 @@ const useFetchInfo = () => {
         } else if (window.location.href.substr(21) === ADMIN_ROUTE) {
             fetchTypes().then(data => product.setTypes(data))
             fetchBrands().then(data => product.setBrands(data))
-            fetchProducts(null, null, null, null).then(data => {
+            fetchProducts(null, null, null, 10000).then(data => {
                 product.setProducts(data.rows)
                 product.setTotalCount(data.count)
             })

@@ -59,7 +59,7 @@ export const updateProduct = async (product) => {
     return data
 }
 
-export const fetchProducts = async (typeId, brandId, page, limit = 4) => {
+export const fetchProducts = async (typeId, brandId, page, limit = 100) => {
     const {data} = await $host.get('api/product', {params: {
             typeId, brandId, page, limit
         }})
