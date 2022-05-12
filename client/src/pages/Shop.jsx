@@ -30,7 +30,6 @@ const Shop = observer(() => {
         }
     }
 
-    console.log(product.searchedProducts)
     return (
         <Container style={{ maxWidth: '80%' }}>
             <Row className="pt-3">
