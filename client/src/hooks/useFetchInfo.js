@@ -29,7 +29,7 @@ const useFetchInfo = () => {
             fetchTypes().then(data => product.setTypes(data))
             fetchBrands().then(data => product.setBrands(data))
         } else if (window.location.href.includes(BASKET_ROUTE)) {
-            fetchProducts(null, null, null, null).then(data => {
+            fetchProducts(null, null, null, 10000).then(data => {
                 product.setProducts(data.rows)
                 product.setTotalCount(data.count)
             })
