@@ -45,7 +45,7 @@ const Shop = observer(() => {
                     ><Icon.Search /></button>
                 </Search>
             </Row>
-            <Row className="pt-3">
+            <Row className="pt-2">
                 <Col md={2}>
                     <TypeBar />
                 </Col>
