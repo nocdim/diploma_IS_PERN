@@ -10,7 +10,7 @@ exports.login = [
 ]
 
 exports.registration = [
-    check('email', 'Введен неккоректный email')
+    check('email', 'Введен некорректный email')
         .isEmail()
         .normalizeEmail(),
     check('password', 'Пароль должен состоять из 8+ символов')

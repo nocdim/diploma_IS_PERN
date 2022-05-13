@@ -7,9 +7,7 @@ const { validationResult } = require('express-validator')
 class TypeController {
     async create(req, res, next) {
         try {
-
             const errors = validationResult(req)
-
             if (!errors.isEmpty()) {
                 let errs = []
                 for (let objs of errors.array()) {
@@ -17,18 +15,13 @@ class TypeController {
                 }
                 return next(ApiError.badRequest(errs))
             }
-
             let { name } = req.body
-
             const typeExists = await Type.findOne(
-                {
-                    where: { name }
-                },
+                {where: { name }},
             )
             if (typeExists) {
                 return next(ApiError.badRequest('Раздел с таким названием уже существует'))
             }
-
             const type = await Type.create({ name })
             return res.json(type)
         } catch (e) {
@@ -46,23 +39,18 @@ class TypeController {
                 }
                 return next(ApiError.badRequest(errs))
             }
-
             let { name, oldName } = req.body
             const typeExists = await Type.findOne(
-                { where: { name } }
-            )
-            
+                { where: { name } })
             if (typeExists) {
                 if (typeExists.name !== oldName) {
                     return next(ApiError.badRequest('Раздел с таким названием уже существует'))
                 }
             }
-
             const type = await Type.update({ name: name }, {
                 where: { name: oldName }
             })
             return res.json(type)
-
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
@@ -71,9 +59,7 @@ class TypeController {
     async getOne(req, res) {
         const { id } = req.params
         const type = await Type.findOne(
-            {
-                where: { id }
-            },
+            {where: { id }},
         )
         return res.json(type)
     }

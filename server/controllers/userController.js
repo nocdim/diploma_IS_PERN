@@ -16,9 +16,7 @@ const generateJwt = (id, email, role) => {
 
 class UserController {
     async registration(req, res, next) {
-
         const errors = validationResult(req)
-
         if (!errors.isEmpty()) {
             let errs = []
             for (let objs of errors.array()) {
@@ -26,21 +24,15 @@ class UserController {
             }
             return next(ApiError.badRequest(errs))
         }
-
         const { email, password, role } = req.body
-
         localStorage.setItem('name', email)
-
         if (!email || !password) {
-            return next(ApiError.badRequest('Неккоректный email или пароль'))
+            return next(ApiError.badRequest('Некорректный email или пароль'))
         }
-
         const candidate = await User.findOne({ where: { email } })
-
         if (candidate) {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
-
         const hashPassword = await bcrypt.hash(password, 5)
         const user = await User.create({ email, role, password: hashPassword })
         const basket = await Basket.create({ userId: user.id })
@@ -48,10 +40,9 @@ class UserController {
 
         return res.json({ token })
     }
+
     async registrationAdmin(req, res, next) {
-
         const errors = validationResult(req)
-
         if (!errors.isEmpty()) {
             let errs = []
             for (let objs of errors.array()) {
@@ -59,7 +50,6 @@ class UserController {
             }
             return next(ApiError.badRequest(errs))
         }
-
         const { name, password, role } = req.body
 
         const candidate = await User.findOne({ where: { email: name } })
@@ -67,7 +57,6 @@ class UserController {
         if (candidate) {
             return next(ApiError.badRequest('Администратор с таким логином уже существует'))
         }
-
         const hashPassword = await bcrypt.hash(password, 5)
         const user = await User.create({ email: name, role, password: hashPassword })
         const token = generateJwt(user.id, user.email, user.role)
@@ -98,11 +87,7 @@ class UserController {
     }
 
     async login(req, res, next) {
-
-
-
         const errors = validationResult(req)
-
         if (!errors.isEmpty()) {
             let errs = []
             for (let objs of errors.array()) {
@@ -110,24 +95,17 @@ class UserController {
             }
             return next(ApiError.badRequest(errs))
         }
-
         const { email, password } = req.body
-
         localStorage.setItem('name', email)
-
         const user = await User.findOne({ where: { email } })
         if (!user) {
             return next(ApiError.badRequest('Пользователя с таким email не существует'))
         }
-
         const comparePassword = bcrypt.compareSync(password, user.password)
-
         if (!comparePassword) {
             return next(ApiError.badRequest('Указан неверный пароль'))
         }
-
         const token = generateJwt(user.id, user.email, user.role)
-
         return res.json({ token })
     }
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import TypeBar from '../components/TypeBar'
 import BrandBar from '../components/BrandBar'
@@ -9,14 +9,10 @@ import useFetchInfo from '../hooks/useFetchInfo'
 import * as Icon from 'react-bootstrap-icons';
 import { useState } from 'react'
 import { Search } from '../components/styled/Shop'
-import { Context } from '../index';
 import { useNavigate } from 'react-router-dom'
 import { SEARCH_ROUTE } from '../utils/consts'
 
-
-
 const Shop = observer(() => {
-    const { product } = useContext(Context)
     const navigate = useNavigate()
     const [search, setSearch] = useState('')
     useFetchInfo()
@@ -62,6 +58,5 @@ const Shop = observer(() => {
         </Container>
     )
 })
-
 
 export default Shop
